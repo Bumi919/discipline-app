@@ -16,7 +16,7 @@ Tanpa framework, tanpa server — buka file langsung jalan.
     untuk menambah kegiatan baru. Nama kegiatan tampil polos tanpa emoji.
 - **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
-  - 4 kartu: skor hari ini, progres bulanan, akumulasi jam, streak ≥ 50%.
+  - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
   - **Discipline Level (donut)**: busur terisi sesuai progres
     (penuh = 100%), sisa abu-abu, center menampilkan % + total jam.
   - **Discipline Level (diagram batang)** skor 1–31 per tanggal.

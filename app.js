@@ -339,7 +339,7 @@ function renderStats() {
 
   // Akumulasi + menit per kegiatan
   const actMin = {};
-  let monthMinutes = 0, monthChecks = 0, loggedDays = 0;
+  let monthMinutes = 0, loggedDays = 0;
   for (const k of keys) {
     const d = log[k];
     if (!d) continue;
@@ -348,7 +348,6 @@ function renderStats() {
     for (const a of done) {
       actMin[a.id] = (actMin[a.id] || 0) + a.targetMin;
       monthMinutes += a.targetMin;
-      monthChecks++;
     }
   }
 
@@ -379,11 +378,6 @@ function renderStats() {
       <div class="big">${progressPct}%</div>
       <div class="lbl">📊 Progres bulanan</div>
       <div class="sub">${fmtMin(monthMinutes)} / ${fmtMin(possibleMin)}</div>
-    </div>
-    <div class="summary-card">
-      <div class="big">${(monthMinutes / 60).toFixed(1)} j</div>
-      <div class="lbl">⏱️ Akumulasi</div>
-      <div class="sub">${monthChecks} centang</div>
     </div>
     <div class="summary-card">
       <div class="big">${streak} hari</div>

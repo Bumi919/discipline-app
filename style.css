@@ -473,6 +473,10 @@ body {
   min-width: 220px;
 }
 
+.cards > .summary-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .summary-card {
   background: var(--head);
   border: 1px solid var(--line-soft);
