@@ -396,16 +396,20 @@ function renderStats() {
       <div class="sub">${loggedDays}/${dim} hari tercatat</div>
     </div>`;
 
-  // ===== Diagram lingkaran (donut) =====
+  // ===== Diagram lingkaran (donut) — progres 0–100% =====
+  // Busur terisi sesuai progres menuju target (penuh = 100%),
+  // terbagi per kegiatan; sisa busur abu-abu.
+  const progressFrac = possibleMin ? Math.min(1, monthMinutes / possibleMin) : 0;
+  const filledDeg = progressFrac * 360;
   let acc = 0;
   const stops = [];
   const legendItems = [];
   for (const a of req) {
     const mins = actMin[a.id] || 0;
     if (!mins) continue;
-    const start = (acc / monthMinutes) * 360;
+    const start = (acc / monthMinutes) * filledDeg;
     acc += mins;
-    const end = (acc / monthMinutes) * 360;
+    const end = (acc / monthMinutes) * filledDeg;
     stops.push(`${a.color} ${start}deg ${end}deg`);
     const pct = Math.round((mins / monthMinutes) * 100);
     legendItems.push(
@@ -413,9 +417,11 @@ function renderStats() {
       `<span class="nm">${escapeHtml(a.name)}</span>` +
       `<span class="hh">${fmtMin(mins)} · ${pct}%</span></li>`);
   }
+  if (stops.length && filledDeg < 360) stops.push(`#e8eaee ${filledDeg}deg 360deg`);
   $("donut-dist").style.background =
-    monthMinutes > 0 ? `conic-gradient(${stops.join(", ")})` : "#e8eaee";
-  $("donut-total").textContent = (monthMinutes / 60).toFixed(1) + "j";
+    stops.length ? `conic-gradient(${stops.join(", ")})` : "#e8eaee";
+  $("donut-total").textContent = progressPct + "%";
+  $("donut-time").textContent = (monthMinutes / 60).toFixed(1) + "j";
   $("donut-legend").innerHTML = legendItems.length
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
