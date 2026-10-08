@@ -1,13 +1,13 @@
 # ◫ Progress Grid
 
 Aplikasi web **1 halaman full ke samping** untuk melacak disiplin harian:
-checklist kotak-kotak ala Excel, statistik lingkaran (ring/donut) & diagram batang,
+daily activities ala Excel, statistik lingkaran (ring/donut) & diagram batang,
 dengan kegiatan yang **bebas dikelola** (tambah/ubah/hapus) langsung di tabel.
 Tanpa framework, tanpa server — buka file langsung jalan.
 
 ## ✨ Fitur
 
-- **📅 Checklist Kotak-Kotak** — grid Excel: baris = kegiatan, kolom = tanggal 1–31, kotak centang ke samping.
+- **📅 Daily Activities** — grid Excel: baris = kegiatan, kolom = tanggal 1–31, kotak centang ke samping.
   - Kolom hari tersorot (hari ini), tanggal mendatang nonaktif, weekend merah.
   - Kolom **Σ** (total per kegiatan) & baris **Σ / hari** (total per hari).
   - **Kolom Kegiatan bisa diedit langsung**: klik nama untuk mengganti, klik angka menit

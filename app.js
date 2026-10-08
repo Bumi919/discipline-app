@@ -1,6 +1,6 @@
 // ============================================================
 //  ◫ Progress Grid — 1 halaman full
-//  • Checklist kotak-kotak (grid hari × kegiatan, kesamping)
+//  • Daily activities (grid hari × kegiatan, kesamping)
 //  • Statistik: ring progres + diagram lingkaran + diagram batang
 //  • Kegiatan fleksibel: tambah / ubah / hapus langsung di tabel
 //  localStorage:
@@ -188,7 +188,7 @@ function escapeHtml(s) {
 }
 
 // ============================================================
-//  CHECKLIST KOTAK-KOTAK (grid ke samping)
+//  DAILY ACTIVITIES (grid ke samping)
 // ============================================================
 function renderMatrix() {
   const y = curMonth.getFullYear(), m = curMonth.getMonth();
