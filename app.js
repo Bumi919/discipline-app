@@ -2,7 +2,7 @@
 //  ✅ Disiplin Harian — 1 halaman full
 //  • Checklist kotak-kotak (grid hari × kegiatan, kesamping)
 //  • Statistik: ring progres + diagram lingkaran + diagram batang
-//  • Jadwal editable (tambah/hapus/ubah blok)
+//  • Kegiatan fleksibel: tambah / ubah / hapus langsung di tabel
 //  localStorage:
 //    disc-v2-activities / disc-v2-log / disc-v2-schedule
 // ============================================================
@@ -21,6 +21,8 @@ const DEFAULT_ACTIVITIES = [
   { id: "routine",  icon: "🌤️", name: "Rutinitas & Istirahat", targetMin: 165, required: false, color: "#64748b" },
 ];
 
+// Data jadwal lama — panel UI sudah dihapus, tetap disimpan & ikut ekspor JSON
+// sehingga bisa dikembalikan kapan saja.
 const DEFAULT_SCHEDULE = [
   { s: "06:00", e: "06:45", cat: "routine",  label: "Rutinitas pagi (mandi & persiapan)" },
   { s: "06:45", e: "07:30", cat: "workout",  label: "Workout pagi" },
@@ -84,11 +86,6 @@ function fmtMin(m) {
   const h = Math.floor(m / 60), mm = m % 60;
   if (h > 0) return mm > 0 ? `${h}j ${mm}m` : `${h}j`;
   return `${mm}m`;
-}
-
-function minutesOf(hhmm) {
-  const [h, m] = hhmm.split(":").map(Number);
-  return h * 60 + m;
 }
 
 function loadJSON(key) {
@@ -207,9 +204,11 @@ function renderMatrix() {
 
   for (const a of activities) {
     let checks = 0;
-    html += `<tr><td class="kname"><span class="dot" style="background:${a.color}"></span>${escapeHtml(a.name)}` +
-      `<span class="kacts"><button class="row-del act-edit" data-a="${a.id}" title="Ubah nama &amp; target">✎</button>` +
-      `<button class="row-del act-del" data-a="${a.id}" title="Hapus kegiatan">🗑</button></span></td>`;
+    html += `<tr><td class="kname">` +
+      `<span class="dot" style="background:${a.color}"></span>` +
+      `<input class="name-input" data-a="${a.id}" value="${escapeHtml(a.name)}" maxlength="60" title="Nama kegiatan — klik untuk ubah">` +
+      `<input class="tgt-input" data-a="${a.id}" type="number" value="${a.targetMin}" min="5" max="1440" step="5" title="Target menit/hari — klik untuk ubah">` +
+      `<button class="row-del act-del" data-a="${a.id}" title="Hapus kegiatan">🗑</button></td>`;
     for (let d = 1; d <= dim; d++) {
       const key = `${y}-${pad(m + 1)}-${pad(d)}`;
       const on = isChecked(key, a.id);
@@ -222,7 +221,14 @@ function renderMatrix() {
     html += `<td class="sum">${checks}${elapsed ? "/" + elapsed : ""}</td></tr>`;
   }
 
-  html += "</tbody><tfoot><tr><th class='kname'>Σ / hari</th>";
+  // Baris input di ujung tabel — tambah kegiatan baru (ala Excel)
+  html += `<tr class="addrow"><td class="kname addcell">` +
+    `<input id="row-name" class="name-input" placeholder="Kegiatan baru…" maxlength="60" title="Nama kegiatan baru — tekan Enter atau tombol + untuk menambah">` +
+    `<input id="row-target" class="tgt-input" type="number" value="45" min="5" max="1440" step="5" title="Target menit/hari">` +
+    `<button class="primary-mini act-add" title="Tambah kegiatan">+</button></td>` +
+    `<td class="addfill" colspan="${dim + 1}"></td></tr>` +
+    `</tbody><tfoot><tr><th class='kname'>Σ / hari</th>`;
+
   for (let d = 1; d <= dim; d++) {
     const key = `${y}-${pad(m + 1)}-${pad(d)}`;
     const dset = log[key];
@@ -235,22 +241,6 @@ function renderMatrix() {
   html += `<td>${monthTotal}</td></tr></tfoot>`;
 
   table.innerHTML = html;
-}
-
-function editActivity(id) {
-  const a = getAct(id);
-  if (!a) return;
-  const name = prompt("Nama kegiatan:", a.name);
-  if (name === null) return;
-  const trimmed = name.trim();
-  if (trimmed) a.name = trimmed.slice(0, 60);
-  const t = prompt("Target per hari (menit, 5–1440):", a.targetMin);
-  if (t !== null) {
-    const n = Math.round(Number(t));
-    if (Number.isFinite(n) && n >= 5 && n <= 1440) a.targetMin = n;
-  }
-  saveAct();
-  renderAll();
 }
 
 function deleteActivity(id) {
@@ -269,9 +259,30 @@ function deleteActivity(id) {
   renderAll();
 }
 
+function addActivityFromRow() {
+  const nameEl = $("row-name");
+  const tgtEl = $("row-target");
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const target = Math.max(5, Math.min(1440, Math.round(Number(tgtEl.value) || 45)));
+
+  activities.push({
+    id: "act-" + Date.now(),
+    icon: "🎯",
+    name: name.slice(0, 60),
+    targetMin: target,
+    required: true,
+    color: PALETTE[activities.length % PALETTE.length],
+  });
+  saveAct();
+  renderAll();
+
+  const el = $("row-name");
+  if (el) el.focus();
+}
+
 $("matrix").addEventListener("click", (e) => {
-  const editBtn = e.target.closest(".act-edit");
-  if (editBtn) { editActivity(editBtn.dataset.a); return; }
+  if (e.target.closest(".act-add")) { addActivityFromRow(); return; }
   const delBtn = e.target.closest(".act-del");
   if (delBtn) { deleteActivity(delBtn.dataset.a); return; }
 
@@ -282,6 +293,39 @@ $("matrix").addEventListener("click", (e) => {
   renderMatrix();
   renderStats();
   $("grid-scroll").scrollLeft = sl;
+});
+
+// Edit inline: nama & target langsung di kolom Kegiatan
+$("matrix").addEventListener("change", (e) => {
+  const t = e.target;
+  const a = t.dataset.a ? getAct(t.dataset.a) : null;
+  if (!a) return;
+
+  if (t.classList.contains("name-input")) {
+    const v = t.value.trim();
+    if (!v) { t.value = a.name; return; }
+    a.name = v.slice(0, 60);
+    t.value = a.name;
+    saveAct();
+    renderStats();
+    return;
+  }
+
+  if (t.classList.contains("tgt-input")) {
+    const n = Math.round(Number(t.value));
+    a.targetMin = Number.isFinite(n) && n >= 5 && n <= 1440 ? n : a.targetMin;
+    t.value = a.targetMin;
+    saveAct();
+    renderStats();
+  }
+});
+
+// Enter = tambah kegiatan dari baris input
+$("matrix").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.target.id === "row-name" || e.target.id === "row-target")) {
+    e.preventDefault();
+    addActivityFromRow();
+  }
 });
 
 // ============================================================
@@ -366,7 +410,7 @@ function renderStats() {
     const pct = Math.round((mins / monthMinutes) * 100);
     legendItems.push(
       `<li><span class="dot" style="background:${a.color}"></span>` +
-      `<span class="nm">${a.icon} ${escapeHtml(a.name)}</span>` +
+      `<span class="nm">${escapeHtml(a.name)}</span>` +
       `<span class="hh">${fmtMin(mins)} · ${pct}%</span></li>`);
   }
   $("donut-dist").style.background =
@@ -415,7 +459,7 @@ function renderStats() {
       row.className = "catbar-row";
       row.innerHTML = `
         <div class="catbar-head">
-          <span>${a.icon} ${escapeHtml(a.name)}</span>
+          <span>${escapeHtml(a.name)}</span>
           <span class="val">${checks}/${elapsed} hari • ${fmtMin(checks * a.targetMin)}</span>
         </div>
         <div class="catbar-track">
@@ -429,98 +473,7 @@ function renderStats() {
 }
 
 // ============================================================
-//  JADWAL (editable)
-// ============================================================
-function renderJadwal() {
-  schedule.sort((a, b) => minutesOf(a.s) - minutesOf(b.s));
-
-  const tbody = $("sched-rows");
-  tbody.innerHTML = "";
-
-  schedule.forEach((b, i) => {
-    const cat = getAct(b.cat) || { name: b.label, color: "#94a3b8" };
-    const dur = minutesOf(b.e) - minutesOf(b.s);
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="time"><input type="time" class="cell-input blk-s" data-i="${i}"></td>
-      <td class="time"><input type="time" class="cell-input blk-e" data-i="${i}"></td>
-      <td><span class="sched-dot" style="background:${cat.color}"></span>
-          <input class="cell-input blk-label" data-i="${i}" maxlength="80"></td>
-      <td class="num2 dur">${dur > 0 ? dur + " mnt" : "⚠️"}</td>
-      <td class="act"><button class="row-del blk-del" data-i="${i}" title="Hapus blok">🗑</button></td>`;
-    tr.querySelector(".blk-s").value = b.s;
-    tr.querySelector(".blk-e").value = b.e;
-    tr.querySelector(".blk-label").value = b.label;
-    tbody.appendChild(tr);
-  });
-
-  const total = schedule.reduce((s, b) => s + Math.max(0, minutesOf(b.e) - minutesOf(b.s)), 0);
-  const verdict = total === 960 ? "tepat 16 jam ✓" : total > 960 ? "lebih " + fmtMin(total - 960) : "kurang " + fmtMin(960 - total);
-  $("sched-summary").textContent =
-    `${schedule.length} blok • total ${fmtMin(total)} (${verdict})`;
-
-  const sel = $("blk-cat");
-  sel.innerHTML = activities.map((a) => `<option value="${a.id}">${a.icon} ${escapeHtml(a.name)}</option>`).join("");
-}
-
-$("sched-rows").addEventListener("change", (e) => {
-  const t = e.target;
-  const i = Number(t.dataset.i);
-  if (isNaN(i) || !schedule[i]) return;
-
-  if (t.classList.contains("blk-s") || t.classList.contains("blk-e")) {
-    const b = schedule[i];
-    const s = t.classList.contains("blk-s") ? t.value : b.s;
-    const en = t.classList.contains("blk-e") ? t.value : b.e;
-    if (!s || !en || minutesOf(en) <= minutesOf(s)) {
-      alert("Jam selesai harus setelah jam mulai.");
-      renderJadwal();
-      return;
-    }
-    b.s = s;
-    b.e = en;
-    saveSched();
-    renderJadwal();
-    return;
-  }
-
-  if (t.classList.contains("blk-label")) {
-    schedule[i].label = t.value.trim() || schedule[i].label;
-    saveSched();
-    renderJadwal();
-  }
-});
-
-$("sched-rows").addEventListener("click", (e) => {
-  const btn = e.target.closest(".blk-del");
-  if (!btn) return;
-  schedule.splice(Number(btn.dataset.i), 1);
-  saveSched();
-  renderJadwal();
-});
-
-$("add-block").addEventListener("click", () => {
-  const s = $("blk-start").value;
-  const en = $("blk-end").value;
-  const cat = $("blk-cat").value;
-  if (!s || !en || minutesOf(en) <= minutesOf(s)) {
-    alert("Jam selesai harus setelah jam mulai.");
-    return;
-  }
-  const act = getAct(cat);
-  schedule.push({
-    s,
-    e: en,
-    cat,
-    label: $("blk-label").value.trim() || (act ? act.name : "Kegiatan"),
-  });
-  saveSched();
-  $("blk-label").value = "";
-  renderJadwal();
-});
-
-// ============================================================
-//  Navigasi bulan & tambah kegiatan
+//  Navigasi bulan
 // ============================================================
 function changeMonth(n) {
   curMonth.setMonth(curMonth.getMonth() + n);
@@ -531,38 +484,12 @@ function changeMonth(n) {
 $("prev-month2").addEventListener("click", () => changeMonth(-1));
 $("next-month2").addEventListener("click", () => changeMonth(1));
 
-$("add-activity").addEventListener("click", () => {
-  const name = $("new-name").value.trim();
-  if (!name) { $("new-name").focus(); return; }
-  const target = Math.max(5, Math.min(1440, Math.round(Number($("new-target").value) || 45)));
-  const icon = $("new-icon").value.trim() || "🎯";
-
-  activities.push({
-    id: "act-" + Date.now(),
-    icon,
-    name,
-    targetMin: target,
-    required: true,
-    color: PALETTE[activities.length % PALETTE.length],
-  });
-  saveAct();
-
-  $("new-name").value = "";
-  $("new-icon").value = "";
-  $("new-target").value = "45";
-
-  renderMatrix();
-  renderStats();
-  renderJadwal();
-});
-
 // ============================================================
 //  Render semua
 // ============================================================
 function renderAll() {
   renderMatrix();
   renderStats();
-  renderJadwal();
 }
 
 // ============================================================

@@ -74,10 +74,6 @@ body {
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 }
 
-.panel-wide {
-  grid-column: 1 / -1;
-}
-
 .panel-head {
   display: flex;
   justify-content: space-between;
@@ -98,11 +94,6 @@ body {
   font-size: 0.8rem;
 }
 
-.muted.small {
-  font-size: 0.76rem;
-  font-weight: 400;
-}
-
 .center {
   text-align: center;
 }
@@ -112,11 +103,9 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
-  margin-bottom: 12px;
 }
 
 .toolbar.mini {
-  margin-bottom: 0;
   gap: 6px;
 }
 
@@ -166,10 +155,6 @@ body {
 }
 
 /* ===== Tabel (Excel-style) ===== */
-.table-wrap {
-  overflow-x: auto;
-}
-
 .sheet {
   width: 100%;
   border-collapse: collapse;
@@ -192,52 +177,6 @@ body {
   letter-spacing: 0.04em;
 }
 
-.sheet .num2 {
-  width: 84px;
-  text-align: center;
-}
-
-.sheet .status {
-  width: 54px;
-  text-align: center;
-}
-
-.sheet .act {
-  width: 36px;
-  text-align: center;
-}
-
-.sheet .time {
-  width: 96px;
-}
-
-.sheet tfoot td {
-  background: var(--head);
-  font-weight: 700;
-  font-size: 0.83rem;
-}
-
-.cell-input {
-  border: 1px solid transparent;
-  background: transparent;
-  width: 100%;
-  padding: 4px 6px;
-  border-radius: 6px;
-  font: inherit;
-  color: inherit;
-}
-
-.cell-input:hover {
-  border-color: var(--line);
-}
-
-.cell-input:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: #fff;
-  box-shadow: 0 0 0 3px var(--accent-soft);
-}
-
 .row-del {
   border: none;
   background: transparent;
@@ -252,22 +191,6 @@ body {
 .row-del:hover {
   color: var(--red);
   background: #fef2f2;
-}
-
-.sched-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 7px;
-  vertical-align: 1px;
-}
-
-.dur {
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-variant-numeric: tabular-nums;
-  text-align: center;
 }
 
 /* ===== Grid checklist kotak-kotak ===== */
@@ -293,25 +216,13 @@ body {
   left: 0;
   background: var(--card);
   text-align: left;
-  padding: 6px 10px;
+  padding: 6px 8px;
   font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
   z-index: 2;
   border-left: none;
-  min-width: 172px;
-}
-
-.kacts {
-  display: inline-flex;
-  gap: 1px;
-  margin-left: 6px;
-  vertical-align: -2px;
-}
-
-.kacts .row-del {
-  font-size: 0.72rem;
-  padding: 1px 4px;
+  min-width: 268px;
 }
 
 .matrix thead .kname {
@@ -330,6 +241,7 @@ body {
   border-radius: 50%;
   margin-right: 6px;
   vertical-align: 1px;
+  flex-shrink: 0;
 }
 
 .matrix th.day {
@@ -419,6 +331,119 @@ body {
 
 .matrix tbody tr:nth-child(even) td.mcell:has(.cell:disabled) {
   background: #f6f7f9;
+}
+
+/* ===== Kolom Kegiatan — input inline ===== */
+.kacts {
+  display: inline-flex;
+  gap: 1px;
+  margin-left: 6px;
+  vertical-align: -2px;
+}
+
+.kacts .row-del {
+  font-size: 0.72rem;
+  padding: 1px 4px;
+}
+
+.name-input {
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 4px 6px;
+  border-radius: 6px;
+  width: 140px;
+  max-width: 140px;
+  vertical-align: middle;
+}
+
+.tgt-input {
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 4px 2px;
+  border-radius: 6px;
+  width: 52px;
+  text-align: center;
+  vertical-align: middle;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.tgt-input::-webkit-outer-spin-button,
+.tgt-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.name-input:hover,
+.tgt-input:hover {
+  border-color: var(--line);
+}
+
+.name-input:focus,
+.tgt-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.act-del {
+  vertical-align: middle;
+}
+
+/* ===== Baris tambah kegiatan (ujung tabel) ===== */
+.matrix tr.addrow td {
+  background: var(--head);
+}
+
+.matrix td.addcell {
+  padding: 6px 8px;
+}
+
+.matrix td.addfill {
+  background: var(--head);
+}
+
+.matrix tr.addrow .name-input,
+.matrix tr.addrow .tgt-input {
+  border-color: var(--line);
+  background: #fff;
+}
+
+.matrix tr.addrow .name-input {
+  color: var(--muted);
+}
+
+.matrix tr.addrow .name-input:focus {
+  color: var(--text);
+}
+
+.primary-mini {
+  border: none;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  width: 27px;
+  height: 25px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background 0.15s;
+}
+
+.primary-mini:hover {
+  background: var(--accent-dark);
 }
 
 /* ===== Statistik hero: ring + cards ===== */
@@ -664,130 +689,6 @@ body {
   transition: width 0.5s;
 }
 
-/* ===== Progress checklist? (ringkas) ===== */
-.progress {
-  height: 8px;
-  background: var(--line-soft);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 12px;
-}
-
-.progress i {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: var(--accent);
-  border-radius: 999px;
-  transition: width 0.4s;
-}
-
-/* ===== Add box ===== */
-.add-box {
-  border-top: 1px solid var(--line);
-  margin-top: 14px;
-  padding-top: 14px;
-}
-
-.add-box h3 {
-  font-size: 0.92rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.add-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.add-row.vertical {
-  flex-direction: column;
-  flex-wrap: nowrap;
-}
-
-.row-inline {
-  display: flex;
-  gap: 8px;
-}
-
-.add-row input,
-.add-row select {
-  padding: 9px 11px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.87rem;
-  background: var(--card);
-  color: var(--text);
-}
-
-.add-row input:focus,
-.add-row select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
-}
-
-.add-row .muted {
-  width: 100%;
-}
-
-#new-icon {
-  width: 58px;
-  text-align: center;
-}
-
-#new-name {
-  flex: 1;
-  min-width: 150px;
-}
-
-#new-target {
-  width: 84px;
-}
-
-.row-inline input {
-  flex: 1;
-  min-width: 0;
-}
-
-#blk-label {
-  width: 100%;
-}
-
-.primary-btn {
-  padding: 9px 16px;
-  border: none;
-  border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.87rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-}
-
-.primary-btn:hover {
-  background: var(--accent-dark);
-}
-
-/* ===== Jadwal wide ===== */
-.wide-cols {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 14px;
-  align-items: start;
-}
-
-.wide-cols .add-box {
-  border-top: none;
-  margin-top: 0;
-  padding-top: 0;
-}
-
 /* ===== Footer ===== */
 .app-footer {
   display: flex;
@@ -817,10 +718,6 @@ body {
   .dashboard {
     grid-template-columns: 1fr;
   }
-
-  .wide-cols {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 560px) {
@@ -829,20 +726,16 @@ body {
     font-size: 14px;
   }
 
-  .add-row input,
-  .add-row select {
-    width: 100%;
-  }
-
-  #new-icon {
-    width: 60px;
-  }
-
   .stat-hero {
     justify-content: center;
   }
 
   .cards {
     min-width: 100%;
+  }
+
+  .name-input {
+    width: 84px;
+    max-width: 84px;
   }
 }
