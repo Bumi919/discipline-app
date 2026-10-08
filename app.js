@@ -81,13 +81,6 @@ function addDaysKey(k, n) {
   return toKey(d);
 }
 
-function fmtMin(m) {
-  m = Math.round(m);
-  const h = Math.floor(m / 60), mm = m % 60;
-  if (h > 0) return mm > 0 ? `${h}j ${mm}m` : `${h}j`;
-  return `${mm}m`;
-}
-
 function loadJSON(key) {
   try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
 }
@@ -397,13 +390,12 @@ function renderStats() {
     legendItems.push(
       `<li><span class="dot" style="background:${a.color}"></span>` +
       `<span class="nm">${escapeHtml(a.name)}</span>` +
-      `<span class="hh">${fmtMin(mins)} · ${pct}%</span></li>`);
+      `<span class="hh">${pct}%</span></li>`);
   }
   if (stops.length && filledDeg < 360) stops.push(`#e8eaee ${filledDeg}deg 360deg`);
   $("donut-dist").style.background =
     stops.length ? `conic-gradient(${stops.join(", ")})` : "#e8eaee";
   $("donut-total").textContent = progressPct + "%";
-  $("donut-time").textContent = (monthMinutes / 60).toFixed(1) + "j";
   $("donut-legend").innerHTML = legendItems.length
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
