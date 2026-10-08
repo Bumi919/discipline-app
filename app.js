@@ -408,19 +408,21 @@ function renderStats() {
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
 
-  // ===== Discipline Level (batang) =====
+  // ===== Discipline Level (batang) — skala jumlah centang =====
   const db = $("daybars");
   db.innerHTML = "";
   for (const key of keys) {
     const has = hasData(key);
-    const pct = dayPct(key);
+    const d = log[key];
+    const n = d ? Object.keys(d).length : 0; // jumlah yang dicentang hari itu
+    const npct = activities.length ? Math.round((n / activities.length) * 100) : 0; // skala rendah → tinggi
     const wrap = document.createElement("div");
     wrap.className = "daybar-wrap";
-    wrap.title = has ? `${key} — skor ${pct}%` : `${key} — belum dicatat`;
+    wrap.title = has ? `${key} — ${n}/${activities.length} dicentang` : `${key} — belum dicatat`;
 
     const bar = document.createElement("div");
-    bar.className = `daybar lvl-${level(pct, has)}`;
-    bar.style.height = has ? Math.max(4, pct) + "%" : "3px";
+    bar.className = `daybar lvl-${level(npct, has)}`;
+    bar.style.height = has ? Math.max(4, npct) + "%" : "3px";
     if (!has) bar.style.opacity = "0.4";
 
     const num = document.createElement("span");

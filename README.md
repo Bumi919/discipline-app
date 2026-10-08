@@ -19,7 +19,7 @@ Tanpa framework, tanpa server — buka file langsung jalan.
   - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
   - **Discipline Level (donut)**: busur terisi sesuai progres
     (penuh = 100%), sisa abu-abu, center menampilkan % + total jam.
-  - **Discipline Level (diagram batang)** skor 1–31 per tanggal.
+  - **Discipline Level (diagram batang)** jumlah centang per tanggal — skala rendah → tinggi (penuh = semua kegiatan dicentang).
 - **💾 Penyimpanan** — `localStorage` (aman dari data v1, otomatis dimigrasi),
   plus **Ekspor/Impor JSON** di footer.
 
