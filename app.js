@@ -1,5 +1,5 @@
 // ============================================================
-//  ◫ Progress Grid — 1 halaman full
+//  ◫ Daily Discipline — 1 halaman full
 //  • Daily activities (grid hari × kegiatan, kesamping)
 //  • Statistik: ring progres + Discipline Level (donut, batang, per kegiatan)
 //  • Kegiatan fleksibel: tambah / ubah / hapus langsung di tabel

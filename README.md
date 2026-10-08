@@ -1,4 +1,4 @@
-# Progress Grid
+# Daily Discipline
 
 Aplikasi web **1 halaman full ke samping** untuk melacak disiplin harian:
 daily activities ala Excel, statistik lingkaran (ring/donut) & diagram batang,
