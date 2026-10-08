@@ -20,7 +20,7 @@ Tanpa framework, tanpa server — buka file langsung jalan.
   - **Discipline Level (donut)**: busur terisi sesuai progres
     (penuh = 100%), sisa abu-abu, center menampilkan % + total jam.
   - **Discipline Level (diagram batang)** skor 1–31 per tanggal.
-  - **Discipline Level — per kegiatan**: bar degradasi merah 0% → kuning 50% → hijau 100%;
+  - **Monthly Discipline Level**: bar degradasi merah 0% → kuning 50% → hijau 100% dengan label persen di tiap bar;
     daftar kegiatannya mengikuti kegiatan yang kamu tentukan sendiri (wajib), jadi fleksibel.
 - **💾 Penyimpanan** — `localStorage` (aman dari data v1, otomatis dimigrasi),
   plus **Ekspor/Impor JSON** di footer.

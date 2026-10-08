@@ -455,7 +455,7 @@ function renderStats() {
     db.appendChild(wrap);
   }
 
-  // ===== Akumulasi per kegiatan =====
+  // ===== Monthly Discipline Level (bar per kegiatan) =====
   const cb = $("cat-bars");
   cb.innerHTML = "";
   if (!elapsed) {
@@ -475,7 +475,11 @@ function renderStats() {
           <span class="val">${checks}/${elapsed} hari • ${fmtMin(checks * a.targetMin)}</span>
         </div>
         <div class="catbar-track">
-          <div class="catbar-fill" style="width:${Math.min(100, pct)}%;background:${pctColor(pct)}"></div>
+          <div class="catbar-fill" style="width:${Math.min(100, pct)}%;background:${pctColor(pct)}">${
+            pct >= 15 ? `<span class="catbar-pct">${pct}%</span>` : ""
+          }</div>${
+            pct < 15 ? `<span class="catbar-pct out" style="left:${pct}%;color:${pctColor(pct)}">${pct}%</span>` : ""
+          }
         </div>`;
       cb.appendChild(row);
     }
