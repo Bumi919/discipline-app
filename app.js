@@ -176,12 +176,6 @@ function level(pct, has) {
   return 1;
 }
 
-// Warna degradasi progres: 0% merah → 50% kuning → 100% hijau
-function pctColor(pct) {
-  const p = Math.max(0, Math.min(100, pct));
-  return `hsl(${Math.round(p * 1.2)}, 75%, 47%)`;
-}
-
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -435,38 +429,6 @@ function renderStats() {
 
     wrap.append(bar, num);
     db.appendChild(wrap);
-  }
-
-  // ===== Bar akumulasi per kegiatan (tanpa judul) =====
-  const cb = $("cat-bars");
-  cb.innerHTML = "";
-  if (!elapsed) {
-    $("cat-bars-note").textContent = "Bulan belum dimulai — belum ada hari berjalan.";
-  } else {
-    for (const a of req) {
-      let checks = 0;
-      for (let d = 1; d <= elapsed; d++) {
-        if (isChecked(`${y}-${pad(m + 1)}-${pad(d)}`, a.id)) checks++;
-      }
-      const pct = Math.round((checks / elapsed) * 100);
-      const row = document.createElement("div");
-      row.className = "catbar-row";
-      row.innerHTML = `
-        <div class="catbar-head">
-          <span>${escapeHtml(a.name)}</span>
-          <span class="val">${checks}/${elapsed} hari • ${fmtMin(checks * a.targetMin)}</span>
-        </div>
-        <div class="catbar-track">
-          <div class="catbar-fill" style="width:${Math.min(100, pct)}%;background:${pctColor(pct)}">${
-            pct >= 15 ? `<span class="catbar-pct">${pct}%</span>` : ""
-          }</div>${
-            pct < 15 ? `<span class="catbar-pct out" style="left:${pct}%;color:${pctColor(pct)}">${pct}%</span>` : ""
-          }
-        </div>`;
-      cb.appendChild(row);
-    }
-    $("cat-bars-note").textContent =
-      `Akumulasi dari ${elapsed} hari berjalan • target harian wajib ${fmtMin(reqTargetTotal())}.`;
   }
 }
 

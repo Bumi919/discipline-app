@@ -634,60 +634,6 @@ body {
   color: var(--muted);
 }
 
-/* ===== Bar per kegiatan ===== */
-.catbar-row {
-  margin-bottom: 11px;
-}
-
-.catbar-row:last-child {
-  margin-bottom: 0;
-}
-
-.catbar-head {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.79rem;
-  margin-bottom: 4px;
-  gap: 8px;
-}
-
-.catbar-head .val {
-  color: var(--muted);
-  font-size: 0.73rem;
-  white-space: nowrap;
-}
-
-.catbar-track {
-  position: relative;
-  height: 16px;
-  background: #eceef2;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.catbar-fill {
-  position: relative;
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.5s;
-}
-
-.catbar-pct {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1;
-  color: #111;
-}
-
-.catbar-pct.out {
-  right: auto;
-  margin-left: 5px;
-}
-
 /* ===== Footer ===== */
 .app-footer {
   display: flex;
