@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✅ Checklist & Statistik Disiplin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <h1>✅ Disiplin Harian</h1>
+        <p>Checklist kotak-kotak ke samping · statistik lingkaran &amp; diagram · jadwal editable</p>
+      </div>
+    </header>
+
+    <div class="dashboard">
+      <!-- ============ CHECKLIST KOTAK-KOTAK (kesamping) ============ -->
+      <section class="panel">
+        <div class="panel-head">
+          <h2>📅 Checklist Kotak-Kotak</h2>
+          <div class="toolbar mini">
+            <button id="prev-month2" class="icon-btn" title="Bulan sebelumnya">‹</button>
+            <span id="month-label2" class="month-label">—</span>
+            <button id="next-month2" class="icon-btn" title="Bulan berikutnya">›</button>
+          </div>
+        </div>
+
+        <div class="grid-scroll" id="grid-scroll">
+          <table class="sheet matrix" id="matrix"></table>
+        </div>
+        <p class="muted center">☑ Klik kotak untuk centang — kotak abu-abu = tanggal mendatang · kolom bertanda = hari ini · Σ = total per kegiatan &amp; per hari · ✎ ubah · 🗑 hapus kegiatan.</p>
+
+        <div class="add-box">
+          <h3>➕ Tambah kegiatan</h3>
+          <div class="add-row">
+            <input id="new-icon" placeholder="🎯" maxlength="4" title="Ikon (emoji)">
+            <input id="new-name" placeholder="Nama kegiatan…" maxlength="60">
+            <input id="new-target" type="number" value="45" min="5" max="1440" step="5" title="Target menit">
+            <button id="add-activity" class="primary-btn">+ Tambah</button>
+          </div>
+          <p class="muted">Kegiatan baru langsung masuk kotak checklist, statistik &amp; dropdown jadwal.</p>
+        </div>
+      </section>
+
+      <!-- ============ STATISTIK LINGKARAN & DIAGRAM ============ -->
+      <section class="panel">
+        <div class="panel-head">
+          <h2>📊 Statistik</h2>
+          <span class="muted" id="month-label">—</span>
+        </div>
+
+        <div class="stat-hero">
+          <div class="ring" id="ring-progres">
+            <div class="ring-hole">
+              <b id="ring-pct">0%</b>
+              <small>progres</small>
+            </div>
+          </div>
+          <div class="cards" id="summary-grid"></div>
+        </div>
+
+        <div class="card-inner">
+          <h3>🍩 Diagram lingkaran — akumulasi kegiatan</h3>
+          <div class="donut-wrap">
+            <div class="donut" id="donut-dist">
+              <div class="donut-hole"><b id="donut-total">0j</b><small>tercapai</small></div>
+            </div>
+            <ul class="donut-legend" id="donut-legend"></ul>
+          </div>
+        </div>
+
+        <div class="card-inner">
+          <h3>📊 Diagram batang — skor harian</h3>
+          <div class="daybars" id="daybars"></div>
+        </div>
+
+        <div class="card-inner">
+          <h3>🎯 Akumulasi progres per kegiatan</h3>
+          <div id="cat-bars"></div>
+          <p class="muted center" id="cat-bars-note"></p>
+        </div>
+      </section>
+
+      <!-- ============ JADWAL (LEBAR PENUH) ============ -->
+      <section class="panel panel-wide">
+        <div class="panel-head">
+          <h2>⏰ Jadwal Harian <span class="muted small">— ubah jam, tambah &amp; hapus blok</span></h2>
+          <span class="muted" id="sched-summary">—</span>
+        </div>
+        <div class="wide-cols">
+          <div class="table-wrap">
+            <table class="sheet" id="sched-table">
+              <thead>
+                <tr>
+                  <th class="time">Mulai</th>
+                  <th class="time">Selesai</th>
+                  <th>Kegiatan</th>
+                  <th class="num2">Durasi</th>
+                  <th class="act"></th>
+                </tr>
+              </thead>
+              <tbody id="sched-rows"></tbody>
+            </table>
+          </div>
+          <div class="add-box">
+            <h3>➕ Tambah blok</h3>
+            <div class="add-row vertical">
+              <div class="row-inline">
+                <input type="time" id="blk-start" value="12:00" title="Jam mulai">
+                <input type="time" id="blk-end" value="12:45" title="Jam selesai">
+              </div>
+              <select id="blk-cat" title="Kegiatan"></select>
+              <input id="blk-label" placeholder="Keterangan (opsional)" maxlength="80">
+              <button id="add-block" class="primary-btn">+ Tambah blok</button>
+              <p class="muted">Blok baru disusun otomatis berdasarkan jam. Ideal total: 16 jam (06:00–22:00).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="app-footer">
+      <button id="export-btn" class="text-btn">⬇ Ekspor data</button>
+      <button id="import-btn" class="text-btn">⬆ Impor data</button>
+      <input type="file" id="import-file" accept=".json,application/json" hidden>
+      <span id="save-status" aria-live="polite"></span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

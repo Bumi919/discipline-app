@@ -1,0 +1,848 @@
+/* ============================================================
+   Disiplin Harian — 1 halaman full ke samping, modern minimalis
+   ============================================================ */
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --line-soft: #eef0f3;
+  --head: #f9fafb;
+  --zebra: #fcfcfd;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --accent-dark: #4338ca;
+  --accent-soft: #eef2ff;
+  --green: #10b981;
+  --red: #ef4444;
+  --radius: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 18px;
+  font-size: 15px;
+}
+
+.app {
+  width: 100%;
+  max-width: 1760px;
+  margin: 0 auto;
+}
+
+/* ===== Header ===== */
+.app-header {
+  margin-bottom: 14px;
+}
+
+.brand h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.brand p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 3px;
+}
+
+/* ===== Dashboard: full ke samping ===== */
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(330px, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.panel-wide {
+  grid-column: 1 / -1;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.panel-head h2 {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.muted.small {
+  font-size: 0.76rem;
+  font-weight: 400;
+}
+
+.center {
+  text-align: center;
+}
+
+/* ===== Toolbar ===== */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.toolbar.mini {
+  margin-bottom: 0;
+  gap: 6px;
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.text-btn {
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.text-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.month-label {
+  font-weight: 700;
+  font-size: 0.92rem;
+  min-width: 138px;
+  text-align: center;
+}
+
+/* ===== Tabel (Excel-style) ===== */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.sheet {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.87rem;
+}
+
+.sheet th,
+.sheet td {
+  border: 1px solid var(--line-soft);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.sheet thead th {
+  background: var(--head);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sheet .num2 {
+  width: 84px;
+  text-align: center;
+}
+
+.sheet .status {
+  width: 54px;
+  text-align: center;
+}
+
+.sheet .act {
+  width: 36px;
+  text-align: center;
+}
+
+.sheet .time {
+  width: 96px;
+}
+
+.sheet tfoot td {
+  background: var(--head);
+  font-weight: 700;
+  font-size: 0.83rem;
+}
+
+.cell-input {
+  border: 1px solid transparent;
+  background: transparent;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font: inherit;
+  color: inherit;
+}
+
+.cell-input:hover {
+  border-color: var(--line);
+}
+
+.cell-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.row-del {
+  border: none;
+  background: transparent;
+  color: #c3c8d0;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.row-del:hover {
+  color: var(--red);
+  background: #fef2f2;
+}
+
+.sched-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+
+.dur {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* ===== Grid checklist kotak-kotak ===== */
+.grid-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.matrix {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.matrix th,
+.matrix td {
+  border: 1px solid var(--line-soft);
+  padding: 0;
+  text-align: center;
+}
+
+.matrix .kname {
+  position: sticky;
+  left: 0;
+  background: var(--card);
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 2;
+  border-left: none;
+  min-width: 172px;
+}
+
+.kacts {
+  display: inline-flex;
+  gap: 1px;
+  margin-left: 6px;
+  vertical-align: -2px;
+}
+
+.kacts .row-del {
+  font-size: 0.72rem;
+  padding: 1px 4px;
+}
+
+.matrix thead .kname {
+  background: var(--head);
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  z-index: 3;
+}
+
+.matrix .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+.matrix th.day {
+  width: 26px;
+  min-width: 26px;
+  background: var(--head);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 6px 0;
+}
+
+.matrix th.day.weekend {
+  color: #e11d48;
+}
+
+.matrix th.day.tcol {
+  background: var(--accent);
+  color: #fff;
+}
+
+.cell {
+  width: 100%;
+  height: 27px;
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: transparent;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-family: inherit;
+  display: block;
+}
+
+.cell:hover:not(:disabled):not(.on) {
+  background: var(--accent-soft);
+}
+
+.cell.on {
+  background: var(--accent);
+  color: #fff;
+}
+
+.cell:disabled {
+  background: #f6f7f9;
+  cursor: default;
+}
+
+.matrix td.mcell {
+  width: 26px;
+  min-width: 26px;
+  padding: 0;
+}
+
+.matrix td.mcell.tcol {
+  background: #f4f4fe;
+}
+
+.matrix th.sum,
+.matrix td.sum {
+  width: 42px;
+  min-width: 42px;
+  background: var(--head);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0 3px;
+}
+
+.matrix tfoot th,
+.matrix tfoot td {
+  background: var(--head);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 5px 0;
+}
+
+.matrix tbody tr:nth-child(even) td.mcell {
+  background: var(--zebra);
+}
+
+.matrix tbody tr:nth-child(even) td.mcell.tcol {
+  background: #f6f6fd;
+}
+
+.matrix tbody tr:nth-child(even) td.mcell:has(.cell:disabled) {
+  background: #f6f7f9;
+}
+
+/* ===== Statistik hero: ring + cards ===== */
+.stat-hero {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.ring {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) 0%, #e8eaee 0%);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background 0.5s;
+}
+
+.ring-hole {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: var(--card);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.ring-hole b {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.ring-hole small {
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.cards {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.summary-card {
+  background: var(--head);
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.summary-card .big {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.summary-card .lbl {
+  color: var(--muted);
+  font-size: 0.7rem;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.summary-card .sub {
+  color: var(--muted);
+  font-size: 0.64rem;
+  margin-top: 1px;
+}
+
+/* ===== Card inner ===== */
+.card-inner {
+  background: var(--head);
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.card-inner:last-child {
+  margin-bottom: 0;
+}
+
+.card-inner h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* ===== Donut (diagram lingkaran) ===== */
+.donut-wrap {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.donut {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  background: #e8eaee;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.donut-hole {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--head);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.donut-hole b {
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.donut-hole small {
+  color: var(--muted);
+  font-size: 0.58rem;
+}
+
+.donut-legend {
+  list-style: none;
+  flex: 1;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.donut-legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+}
+
+.donut-legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.donut-legend .nm {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donut-legend .hh {
+  color: var(--muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+/* ===== Diagram batang harian ===== */
+.daybars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 104px;
+}
+
+.daybar-wrap {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.daybar {
+  width: 100%;
+  min-height: 3px;
+  border-radius: 4px 4px 0 0;
+  background: var(--line);
+  transition: height 0.4s;
+}
+
+.daybar.lvl-1 { background: #fca5a5; }
+.daybar.lvl-2 { background: #fcd34d; }
+.daybar.lvl-3 { background: #6ee7b7; }
+.daybar.lvl-4 { background: var(--accent); }
+
+.daybar-num {
+  font-size: 0.58rem;
+  color: var(--muted);
+}
+
+/* ===== Bar per kegiatan ===== */
+.catbar-row {
+  margin-bottom: 11px;
+}
+
+.catbar-row:last-child {
+  margin-bottom: 0;
+}
+
+.catbar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.79rem;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+
+.catbar-head .val {
+  color: var(--muted);
+  font-size: 0.73rem;
+  white-space: nowrap;
+}
+
+.catbar-track {
+  height: 9px;
+  background: #eceef2;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.catbar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s;
+}
+
+/* ===== Progress checklist? (ringkas) ===== */
+.progress {
+  height: 8px;
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s;
+}
+
+/* ===== Add box ===== */
+.add-box {
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.add-box h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.add-row.vertical {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.row-inline {
+  display: flex;
+  gap: 8px;
+}
+
+.add-row input,
+.add-row select {
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.87rem;
+  background: var(--card);
+  color: var(--text);
+}
+
+.add-row input:focus,
+.add-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.add-row .muted {
+  width: 100%;
+}
+
+#new-icon {
+  width: 58px;
+  text-align: center;
+}
+
+#new-name {
+  flex: 1;
+  min-width: 150px;
+}
+
+#new-target {
+  width: 84px;
+}
+
+.row-inline input {
+  flex: 1;
+  min-width: 0;
+}
+
+#blk-label {
+  width: 100%;
+}
+
+.primary-btn {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.87rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.primary-btn:hover {
+  background: var(--accent-dark);
+}
+
+/* ===== Jadwal wide ===== */
+.wide-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 14px;
+  align-items: start;
+}
+
+.wide-cols .add-box {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ===== Footer ===== */
+.app-footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+#save-status {
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#save-status.show {
+  opacity: 1;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1040px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+
+  .add-row input,
+  .add-row select {
+    width: 100%;
+  }
+
+  #new-icon {
+    width: 60px;
+  }
+
+  .stat-hero {
+    justify-content: center;
+  }
+
+  .cards {
+    min-width: 100%;
+  }
+}
