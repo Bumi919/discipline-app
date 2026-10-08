@@ -1,4 +1,4 @@
-# ◫ Progress Grid
+# Progress Grid
 
 Aplikasi web **1 halaman full ke samping** untuk melacak disiplin harian:
 daily activities ala Excel, statistik lingkaran (ring/donut) & diagram batang,
@@ -7,14 +7,14 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 
 ## ✨ Fitur
 
-- **📅 Daily Activities** — grid Excel: baris = kegiatan, kolom = tanggal 1–31, kotak centang ke samping.
+- **Daily Activities** — grid Excel: baris = kegiatan, kolom = tanggal 1–31, kotak centang ke samping.
   - Kolom hari tersorot (hari ini), tanggal mendatang nonaktif, weekend merah.
   - Kolom **Σ** (total per kegiatan) & baris **Σ / hari** (total per hari).
   - **Kolom Kegiatan bisa diedit langsung**: klik nama untuk mengganti, klik angka menit
     untuk mengubah target harian, tombol 🗑 untuk menghapus (termasuk centangannya).
   - **Baris input di ujung tabel** — ketik nama + menit, tekan **Enter** atau **+**
     untuk menambah kegiatan baru. Nama kegiatan tampil polos tanpa emoji.
-- **📊 Statistik** (mengikuti bulan yang dipilih):
+- **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 4 kartu: skor hari ini, progres bulanan, akumulasi jam, streak ≥ 50%.
   - **Discipline Level (donut)**: busur terisi sesuai progres
