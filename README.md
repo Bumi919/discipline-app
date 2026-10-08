@@ -17,9 +17,9 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 - **📊 Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 4 kartu: skor hari ini, progres bulanan, akumulasi jam, streak ≥ 50%.
-  - **Discipline Level — progres menuju 100% (donut)**: busur terisi sesuai progres
+  - **Discipline Level (donut)**: busur terisi sesuai progres
     (penuh = 100%), sisa abu-abu, center menampilkan % + total jam.
-  - **Discipline Level — skor harian (diagram batang)** skor 1–31 per tanggal.
+  - **Discipline Level (diagram batang)** skor 1–31 per tanggal.
   - **Discipline Level — per kegiatan**: bar degradasi merah 0% → kuning 50% → hijau 100%;
     daftar kegiatannya mengikuti kegiatan yang kamu tentukan sendiri (wajib), jadi fleksibel.
 - **💾 Penyimpanan** — `localStorage` (aman dari data v1, otomatis dimigrasi),

@@ -432,7 +432,7 @@ function renderStats() {
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
 
-  // ===== Discipline Level — skor harian (batang) =====
+  // ===== Discipline Level (batang) =====
   const db = $("daybars");
   db.innerHTML = "";
   for (const key of keys) {
