@@ -362,35 +362,11 @@ body {
   vertical-align: middle;
 }
 
-.tgt-input {
-  border: 1px solid transparent;
-  background: transparent;
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--muted);
-  padding: 4px 2px;
-  border-radius: 6px;
-  width: 52px;
-  text-align: center;
-  vertical-align: middle;
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-.tgt-input::-webkit-outer-spin-button,
-.tgt-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.name-input:hover,
-.tgt-input:hover {
+.name-input:hover {
   border-color: var(--line);
 }
 
-.name-input:focus,
-.tgt-input:focus {
+.name-input:focus {
   outline: none;
   border-color: var(--accent);
   background: #fff;
@@ -414,8 +390,7 @@ body {
   background: var(--head);
 }
 
-.matrix tr.addrow .name-input,
-.matrix tr.addrow .tgt-input {
+.matrix tr.addrow .name-input {
   border-color: var(--line);
   background: #fff;
 }

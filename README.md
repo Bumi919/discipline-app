@@ -10,9 +10,9 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 - **Daily Activities** — grid Excel: baris = kegiatan, kolom = tanggal 1–31, kotak centang ke samping.
   - Kolom hari tersorot (hari ini), tanggal mendatang nonaktif, weekend merah.
   - Kolom **Σ** (total per kegiatan) & baris **Σ / hari** (total per hari).
-  - **Kolom Kegiatan bisa diedit langsung**: klik nama untuk mengganti, klik angka menit
-    untuk mengubah target harian, tombol 🗑 untuk menghapus (termasuk centangannya).
-  - **Baris input di ujung tabel** — ketik nama + menit, tekan **Enter** atau **+**
+  - **Kolom Kegiatan bisa diedit langsung**: klik nama untuk mengganti,
+    tombol 🗑 untuk menghapus (termasuk centangannya).
+  - **Baris input di ujung tabel** — ketik nama, tekan **Enter** atau **+**
     untuk menambah kegiatan baru. Nama kegiatan tampil polos tanpa emoji.
 - **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).

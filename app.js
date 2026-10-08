@@ -213,7 +213,6 @@ function renderMatrix() {
     html += `<tr><td class="kname">` +
       `<span class="rownum">${activities.indexOf(a) + 1}</span>` +
       `<input class="name-input" data-a="${a.id}" value="${escapeHtml(a.name)}" maxlength="60" title="Nama kegiatan — klik untuk ubah">` +
-      `<input class="tgt-input" data-a="${a.id}" type="number" value="${a.targetMin}" min="5" max="1440" step="5" title="Target menit/hari — klik untuk ubah">` +
       `<button class="row-del act-del" data-a="${a.id}" title="Hapus kegiatan">🗑</button></td>`;
     for (let d = 1; d <= dim; d++) {
       const key = `${y}-${pad(m + 1)}-${pad(d)}`;
@@ -230,7 +229,6 @@ function renderMatrix() {
   // Baris input di ujung tabel — tambah kegiatan baru (ala Excel)
   html += `<tr class="addrow"><td class="kname addcell">` +
     `<input id="row-name" class="name-input" placeholder="Kegiatan baru…" maxlength="60" title="Nama kegiatan baru — tekan Enter atau tombol + untuk menambah">` +
-    `<input id="row-target" class="tgt-input" type="number" value="45" min="5" max="1440" step="5" title="Target menit/hari">` +
     `<button class="primary-mini act-add" title="Tambah kegiatan">+</button></td>` +
     `<td class="addfill" colspan="${dim + 1}"></td></tr>` +
     `</tbody><tfoot><tr><th class='kname'>Σ / hari</th>`;
@@ -267,10 +265,9 @@ function deleteActivity(id) {
 
 function addActivityFromRow() {
   const nameEl = $("row-name");
-  const tgtEl = $("row-target");
   const name = nameEl.value.trim();
   if (!name) { nameEl.focus(); return; }
-  const target = Math.max(5, Math.min(1440, Math.round(Number(tgtEl.value) || 45)));
+  const target = 45; // default — menit tak lagi diatur dari tabel
 
   activities.push({
     id: "act-" + Date.now(),
@@ -301,7 +298,7 @@ $("matrix").addEventListener("click", (e) => {
   $("grid-scroll").scrollLeft = sl;
 });
 
-// Edit inline: nama & target langsung di kolom Kegiatan
+// Edit inline: nama langsung di kolom Kegiatan
 $("matrix").addEventListener("change", (e) => {
   const t = e.target;
   const a = t.dataset.a ? getAct(t.dataset.a) : null;
@@ -316,19 +313,11 @@ $("matrix").addEventListener("change", (e) => {
     renderStats();
     return;
   }
-
-  if (t.classList.contains("tgt-input")) {
-    const n = Math.round(Number(t.value));
-    a.targetMin = Number.isFinite(n) && n >= 5 && n <= 1440 ? n : a.targetMin;
-    t.value = a.targetMin;
-    saveAct();
-    renderStats();
-  }
 });
 
 // Enter = tambah kegiatan dari baris input
 $("matrix").addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && (e.target.id === "row-name" || e.target.id === "row-target")) {
+  if (e.key === "Enter" && e.target.id === "row-name") {
     e.preventDefault();
     addActivityFromRow();
   }
