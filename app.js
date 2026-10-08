@@ -1,5 +1,5 @@
 // ============================================================
-//  ✅ Disiplin Harian — 1 halaman full
+//  ◫ Progress Grid — 1 halaman full
 //  • Checklist kotak-kotak (grid hari × kegiatan, kesamping)
 //  • Statistik: ring progres + diagram lingkaran + diagram batang
 //  • Kegiatan fleksibel: tambah / ubah / hapus langsung di tabel

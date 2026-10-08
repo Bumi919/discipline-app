@@ -1,4 +1,4 @@
-# ✅ Disiplin Harian
+# ◫ Progress Grid
 
 Aplikasi web **1 halaman full ke samping** untuk melacak disiplin harian:
 checklist kotak-kotak ala Excel, statistik lingkaran (ring/donut) & diagram batang,
