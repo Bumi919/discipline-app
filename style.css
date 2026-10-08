@@ -234,14 +234,16 @@ body {
   z-index: 3;
 }
 
-.matrix .dot {
+.rownum {
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: 16px;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-align: right;
   margin-right: 6px;
-  vertical-align: 1px;
-  flex-shrink: 0;
+  vertical-align: middle;
+  opacity: 0.7;
 }
 
 .matrix th.day {

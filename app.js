@@ -176,6 +176,12 @@ function level(pct, has) {
   return 1;
 }
 
+// Warna degradasi progres: 0% merah → 50% kuning → 100% hijau
+function pctColor(pct) {
+  const p = Math.max(0, Math.min(100, pct));
+  return `hsl(${Math.round(p * 1.2)}, 75%, 47%)`;
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -205,7 +211,7 @@ function renderMatrix() {
   for (const a of activities) {
     let checks = 0;
     html += `<tr><td class="kname">` +
-      `<span class="dot" style="background:${a.color}"></span>` +
+      `<span class="rownum">${activities.indexOf(a) + 1}</span>` +
       `<input class="name-input" data-a="${a.id}" value="${escapeHtml(a.name)}" maxlength="60" title="Nama kegiatan — klik untuk ubah">` +
       `<input class="tgt-input" data-a="${a.id}" type="number" value="${a.targetMin}" min="5" max="1440" step="5" title="Target menit/hari — klik untuk ubah">` +
       `<button class="row-del act-del" data-a="${a.id}" title="Hapus kegiatan">🗑</button></td>`;
@@ -469,7 +475,7 @@ function renderStats() {
           <span class="val">${checks}/${elapsed} hari • ${fmtMin(checks * a.targetMin)}</span>
         </div>
         <div class="catbar-track">
-          <div class="catbar-fill" style="width:${Math.min(100, pct)}%;background:${a.color}"></div>
+          <div class="catbar-fill" style="width:${Math.min(100, pct)}%;background:${pctColor(pct)}"></div>
         </div>`;
       cb.appendChild(row);
     }
