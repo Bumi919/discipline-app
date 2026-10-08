@@ -539,6 +539,13 @@ body {
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  /* ===== 3D: miring + tumpukan tepi (ketebalan cakram) ===== */
+  transform: perspective(720px) rotateX(26deg);
+  box-shadow:
+    0 5px 0 #d7d9df,
+    0 9px 0 #c9ccd3,
+    0 13px 0 #bcbfc7,
+    0 26px 24px -12px rgba(15, 23, 42, 0.4);
 }
 
 .donut-hole {
@@ -617,11 +624,30 @@ body {
 }
 
 .daybar {
+  position: relative;
   width: 100%;
   min-height: 3px;
   border-radius: 4px 4px 0 0;
   background: var(--line);
   transition: height 0.4s;
+  /* ===== 3D: balok berdiri di lantai berperspektif ===== */
+  transform: perspective(340px) rotateX(36deg);
+  transform-origin: bottom center;
+  box-shadow: 0 9px 10px -7px rgba(15, 23, 42, 0.45);
+}
+
+.daybar::before {
+  /* tutup atas balok (sisi terang) */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -5px;
+  width: 100%;
+  height: 6px;
+  background: inherit;
+  filter: brightness(1.3);
+  transform: skewX(-45deg);
+  border-radius: 1px;
 }
 
 .daybar.lvl-1 { background: #fca5a5; }
