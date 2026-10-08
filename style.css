@@ -544,7 +544,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* ===== Donut (diagram lingkaran) ===== */
+/* ===== Donut (Discipline Level) ===== */
 .donut-wrap {
   display: flex;
   gap: 14px;
@@ -619,7 +619,7 @@ body {
   white-space: nowrap;
 }
 
-/* ===== Diagram batang harian ===== */
+/* ===== Discipline Level — batang harian ===== */
 .daybars {
   display: flex;
   align-items: flex-end;

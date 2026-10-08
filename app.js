@@ -1,7 +1,7 @@
 // ============================================================
 //  ◫ Progress Grid — 1 halaman full
 //  • Daily activities (grid hari × kegiatan, kesamping)
-//  • Statistik: ring progres + diagram lingkaran + diagram batang
+//  • Statistik: ring progres + Discipline Level (donut, batang, per kegiatan)
 //  • Kegiatan fleksibel: tambah / ubah / hapus langsung di tabel
 //  localStorage:
 //    disc-v2-activities / disc-v2-log / disc-v2-schedule
@@ -335,7 +335,7 @@ $("matrix").addEventListener("keydown", (e) => {
 });
 
 // ============================================================
-//  STATISTIK — ring, diagram lingkaran, diagram batang
+//  STATISTIK — ring, Discipline Level (donut, batang, per kegiatan)
 // ============================================================
 function renderStats() {
   const y = curMonth.getFullYear(), m = curMonth.getMonth();
@@ -402,7 +402,7 @@ function renderStats() {
       <div class="sub">${loggedDays}/${dim} hari tercatat</div>
     </div>`;
 
-  // ===== Diagram lingkaran (donut) — progres 0–100% =====
+  // ===== Discipline Level (donut) — progres 0–100% =====
   // Busur terisi sesuai progres menuju target (penuh = 100%),
   // terbagi per kegiatan; sisa busur abu-abu.
   const progressFrac = possibleMin ? Math.min(1, monthMinutes / possibleMin) : 0;
@@ -432,7 +432,7 @@ function renderStats() {
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
 
-  // ===== Diagram batang skor harian =====
+  // ===== Discipline Level — skor harian (batang) =====
   const db = $("daybars");
   db.innerHTML = "";
   for (const key of keys) {
