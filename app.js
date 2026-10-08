@@ -377,7 +377,6 @@ function renderStats() {
     <div class="summary-card">
       <div class="big">${progressPct}%</div>
       <div class="lbl">📊 Progres bulanan</div>
-      <div class="sub">${fmtMin(monthMinutes)} / ${fmtMin(possibleMin)}</div>
     </div>
     <div class="summary-card">
       <div class="big">${streak} hari</div>
