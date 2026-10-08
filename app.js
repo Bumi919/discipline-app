@@ -455,7 +455,7 @@ function renderStats() {
     db.appendChild(wrap);
   }
 
-  // ===== Monthly Discipline Level (bar per kegiatan) =====
+  // ===== Bar akumulasi per kegiatan (tanpa judul) =====
   const cb = $("cat-bars");
   cb.innerHTML = "";
   if (!elapsed) {
