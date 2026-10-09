@@ -386,7 +386,10 @@ function renderStats() {
     acc += mins;
     const end = (acc / monthMinutes) * filledDeg;
     stops.push(`${a.color} ${start}deg ${end}deg`);
-    const pct = Math.round((mins / monthMinutes) * 100);
+    // % seimbang: kemajuan terhadap target kegiatan sendiri (target menit × hari berjalan,
+    // dibatasi maksimal 100%) — bukan porsi terhadap total menit
+    const targetBulan = a.targetMin * elapsed;
+    const pct = targetBulan > 0 ? Math.min(100, Math.round((mins / targetBulan) * 100)) : 0;
     legendItems.push(
       `<li><span class="dot" style="background:${a.color}"></span>` +
       `<span class="nm">${escapeHtml(a.name)}</span>` +

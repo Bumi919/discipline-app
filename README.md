@@ -21,7 +21,9 @@ Tanpa framework, tanpa server — buka file langsung jalan.
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
   - **Discipline Level (donut)**: busur terisi sesuai progres
-    (penuh = 100%), sisa abu-abu, center menampilkan %.
+    (penuh = 100%), sisa abu-abu, center menampilkan %;
+    legenda menampilkan **progres tiap kegiatan terhadap targetnya sendiri**
+    (menit tercapai ÷ target menit × hari berjalan, maks 100%) — seimbang antar kegiatan.
   - **Discipline Level (diagram batang)** jumlah centang per tanggal — skala rendah → tinggi (penuh = semua kegiatan dicentang).
 - **💾 Penyimpanan** — `localStorage` (aman dari data v1, otomatis dimigrasi),
   plus **Ekspor/Impor JSON** di footer.
