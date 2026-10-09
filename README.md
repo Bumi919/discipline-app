@@ -25,11 +25,14 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 - **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
-  - **Discipline Level (donut)**: busur terisi sesuai progres
-    (penuh = 100%), sisa abu-abu, center menampilkan %;
-    legenda menampilkan **progres tiap kegiatan terhadap targetnya sendiri**
-    (menit tercapai ÷ target menit × hari berjalan, maks 100%) — seimbang antar kegiatan.
-  - **Discipline Level (diagram batang)** jumlah centang per tanggal — skala rendah → tinggi (penuh = semua kegiatan dicentang).
+  - **Discipline Level (donut)**: setiap kegiatan mendapat busur **sama besar**
+    (terpisah jarak tipis); tiap segmen terisi sesuai progres kegiatan itu
+    sendiri terhadap targetnya (menit tercapai ÷ target menit × hari berjalan,
+    maks 100%) — ukuran busur seimbang dan persen legenda = isi busur; center
+    menampilkan progres total bulan.
+  - **Ritme Harian (diagram batang)** persen kegiatan tercentang per tanggal —
+    tiap batang punya track, kolom hari ini tersorot aksen, tanggal kelipatan 5
+    ditonjolkan, plus legenda level warna (&lt;50% → 100%).
 - **💾 Penyimpanan** — `localStorage` (aman dari data v1, otomatis dimigrasi),
   plus **Ekspor/Impor JSON** di footer.
 

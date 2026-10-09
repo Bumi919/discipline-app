@@ -854,24 +854,32 @@ body {
 /* ===== Ritme harian — batang ===== */
 .daybars {
   display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 104px;
+  align-items: stretch;
+  gap: 4px;
+  height: 112px;
 }
 
 .daybar-wrap {
   flex: 1;
-  height: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 4px;
+  gap: 5px;
+}
+
+/* Track penuh tinggi agar batang sejajar rapi; hari tanpa data = track kosong */
+.daybar-track {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: var(--line-soft);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .daybar {
   width: 100%;
-  min-height: 3px;
   border-radius: 4px 4px 0 0;
   background: var(--line);
   transition: height 0.4s;
@@ -882,10 +890,52 @@ body {
 .daybar.lvl-3 { background: var(--lvl-3); }
 .daybar.lvl-4 { background: var(--accent); }
 
+/* Kolom hari ini: tersorot aksen */
+.daybar-wrap.today .daybar-track {
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+
 .daybar-num {
   font-size: 0.58rem;
   color: var(--muted);
+  text-align: center;
 }
+
+/* Tanggal kelipatan 5 ditonjolkan agar mudah dibaca */
+.daybar-num.major {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.daybar-wrap.today .daybar-num {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Legenda level warna */
+.chart-legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.chart-legend .cl {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.chart-legend .lvl-1 { background: var(--lvl-1); }
+.chart-legend .lvl-2 { background: var(--lvl-2); }
+.chart-legend .lvl-3 { background: var(--lvl-3); }
+.chart-legend .lvl-4 { background: var(--accent); }
 
 /* ===== Footer ===== */
 .app-footer {
@@ -1090,7 +1140,7 @@ body {
   /* Batang harian: label tanggal ganjil saja supaya tidak tabrakan */
   .daybars {
     height: 92px;
-    gap: 2px;
+    gap: 3px;
   }
 
   .daybar-wrap:nth-child(even) .daybar-num {
@@ -1149,11 +1199,11 @@ body {
   }
 
   /* Layar sempit: tampilkan label tanggal kelipatan 5 saja */
-  .daybars .daybar-wrap .daybar-num {
+  .daybars .daybar-num {
     display: none;
   }
 
-  .daybars .daybar-wrap:nth-child(5n) .daybar-num {
+  .daybars .daybar-num.major {
     display: inline;
   }
 }

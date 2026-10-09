@@ -377,31 +377,31 @@ function renderStats() {
       <div class="sub">${loggedDays}/${dim} hari tercatat</div>
     </div>`;
 
-  // ===== Discipline Level (donut) — progres 0–100% =====
-  // Busur terisi sesuai progres menuju target (penuh = 100%),
-  // terbagi per kegiatan; sisa busur abu-abu.
-  const progressFrac = possibleMin ? Math.min(1, monthMinutes / possibleMin) : 0;
-  const filledDeg = progressFrac * 360;
-  let acc = 0;
+  // ===== Discipline Level (donut) — segmen seimbang per kegiatan =====
+  // Tiap kegiatan wajib mendapat busur sama besar (360/n); tiap segmen
+  // terisi sesuai progres kegiatan itu sendiri, sisa segmen abu-abu —
+  // jadi ukuran busur seimbang dan persen legenda = isi busurnya.
   const stops = [];
   const legendItems = [];
-  for (const a of req) {
-    const mins = actMin[a.id] || 0;
-    if (!mins) continue;
-    const start = (acc / monthMinutes) * filledDeg;
-    acc += mins;
-    const end = (acc / monthMinutes) * filledDeg;
-    stops.push(`${a.color} ${start}deg ${end}deg`);
-    // % seimbang: kemajuan terhadap target kegiatan sendiri (target menit × hari berjalan,
-    // dibatasi maksimal 100%) — bukan porsi terhadap total menit
-    const targetBulan = a.targetMin * elapsed;
-    const pct = targetBulan > 0 ? Math.min(100, Math.round((mins / targetBulan) * 100)) : 0;
-    legendItems.push(
-      `<li><span class="dot" style="background:${a.color}"></span>` +
-      `<span class="nm">${escapeHtml(a.name)}</span>` +
-      `<span class="hh">${pct}%</span></li>`);
+  if (req.length) {
+    const seg = 360 / req.length;
+    const gap = req.length > 1 ? Math.min(6, seg * 0.12) : 0;
+    for (let i = 0; i < req.length; i++) {
+      const a = req[i];
+      const start = i * seg + gap / 2;
+      const end = (i + 1) * seg - gap / 2;
+      const mins = actMin[a.id] || 0;
+      const targetBulan = a.targetMin * elapsed;
+      const pct = targetBulan > 0 ? Math.min(100, Math.round((mins / targetBulan) * 100)) : 0;
+      const fillEnd = start + ((end - start) * pct) / 100;
+      stops.push(`${a.color} ${start}deg ${fillEnd}deg`);
+      if (fillEnd < end) stops.push(`var(--track) ${fillEnd}deg ${end}deg`);
+      legendItems.push(
+        `<li><span class="dot" style="background:${a.color}"></span>` +
+        `<span class="nm">${escapeHtml(a.name)}</span>` +
+        `<span class="hh">${pct}%</span></li>`);
+    }
   }
-  if (stops.length && filledDeg < 360) stops.push(`var(--track) ${filledDeg}deg 360deg`);
   $("donut-dist").style.background =
     stops.length ? `conic-gradient(${stops.join(", ")})` : "var(--track)";
   $("donut-total").textContent = progressPct + "%";
@@ -409,28 +409,36 @@ function renderStats() {
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;
 
-  // ===== Discipline Level (batang) — skala jumlah centang =====
+  // ===== Ritme harian — persen kegiatan tercentang per tanggal =====
   const db = $("daybars");
   db.innerHTML = "";
+  const todayKeyNow = todayKey();
   for (const key of keys) {
     const has = hasData(key);
     const d = log[key];
     const n = d ? Object.keys(d).length : 0; // jumlah yang dicentang hari itu
     const npct = activities.length ? Math.round((n / activities.length) * 100) : 0; // skala rendah → tinggi
+    const day = Number(key.slice(-2));
+
     const wrap = document.createElement("div");
-    wrap.className = "daybar-wrap";
-    wrap.title = has ? `${key} — ${n}/${activities.length} dicentang` : `${key} — belum dicatat`;
+    wrap.className = "daybar-wrap" + (key === todayKeyNow ? " today" : "");
+    wrap.title = has
+      ? `${key} — ${n}/${activities.length} dicentang (${npct}%)`
+      : `${key} — belum dicatat`;
+
+    const track = document.createElement("div");
+    track.className = "daybar-track";
 
     const bar = document.createElement("div");
     bar.className = `daybar lvl-${level(npct, has)}`;
-    bar.style.height = has ? Math.max(4, npct) + "%" : "3px";
-    if (!has) bar.style.opacity = "0.4";
+    bar.style.height = has ? Math.max(5, npct) + "%" : "0%";
+    track.appendChild(bar);
 
     const num = document.createElement("span");
-    num.className = "daybar-num";
-    num.textContent = Number(key.slice(-2));
+    num.className = "daybar-num" + (day % 5 === 0 ? " major" : "");
+    num.textContent = day;
 
-    wrap.append(bar, num);
+    wrap.append(track, num);
     db.appendChild(wrap);
   }
 }
