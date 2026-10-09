@@ -212,7 +212,7 @@ function renderMatrix() {
       const on = isChecked(key, a.id);
       const future = key > today;
       if (on) checks++;
-      html += `<td class="mcell${key === today ? " tcol" : ""}">` +
+      html += `<td class="mcell${future ? " future" : ""}${key === today ? " tcol" : ""}">` +
         `<button class="cell${on ? " on" : ""}" data-d="${key}" data-a="${a.id}"` +
         `${future ? " disabled" : ""} title="${escapeHtml(a.name)} • ${key}">${on ? "✓" : ""}</button></td>`;
     }
@@ -377,33 +377,39 @@ function renderStats() {
       <div class="sub">${loggedDays}/${dim} hari tercatat</div>
     </div>`;
 
-  // ===== Discipline Level (donut) — porsi setara, busur menyatu =====
-  // Tiap kegiatan wajib mendapat porsi busur sama besar (360/n) tanpa
-  // pemisah; tiap porsi terisi sesuai progres kegiatan itu sendiri,
-  // sisa abu-abu — persen legenda = isi porsi busurnya.
+  // ===== Discipline Level (donut) — porsi setara, terisi menyatu =====
+  // Tiap kegiatan berkontribusi maksimal 360/n derajat (porsi setara);
+  // bagian terisi disusun berurutan dari atas TANPA celah — ujung busur
+  // satu = awal busur berikutnya, total isi = rata-rata progres semua
+  // kegiatan; sisa lingkaran abu-abu sampai tepat 360°.
   const stops = [];
   const legendItems = [];
+  let ringPct = 0;
   if (req.length) {
     const seg = 360 / req.length;
-    for (let i = 0; i < req.length; i++) {
-      const a = req[i];
-      const start = i * seg;
-      const end = (i + 1) * seg;
+    let fillAcc = 0;
+    let pctSum = 0;
+    for (const a of req) {
       const mins = actMin[a.id] || 0;
       const targetBulan = a.targetMin * elapsed;
       const pct = targetBulan > 0 ? Math.min(100, Math.round((mins / targetBulan) * 100)) : 0;
-      const fillEnd = start + seg * (pct / 100);
-      stops.push(`${a.color} ${start}deg ${fillEnd}deg`);
-      if (fillEnd < end) stops.push(`var(--track) ${fillEnd}deg ${end}deg`);
+      pctSum += pct;
+      const len = (seg * pct) / 100;
+      if (len > 0) {
+        stops.push(`${a.color} ${fillAcc}deg ${fillAcc + len}deg`);
+        fillAcc += len;
+      }
       legendItems.push(
         `<li><span class="dot" style="background:${a.color}"></span>` +
         `<span class="nm">${escapeHtml(a.name)}</span>` +
         `<span class="hh">${pct}%</span></li>`);
     }
+    ringPct = Math.round(pctSum / req.length);
+    if (fillAcc < 360) stops.push(`var(--track) ${fillAcc}deg 360deg`);
   }
   $("donut-dist").style.background =
     stops.length ? `conic-gradient(${stops.join(", ")})` : "var(--track)";
-  $("donut-total").textContent = progressPct + "%";
+  $("donut-total").textContent = ringPct + "%";
   $("donut-legend").innerHTML = legendItems.length
     ? legendItems.join("")
     : `<li class="muted">Belum ada data bulan ini — centang kotak di sebelah kiri.</li>`;

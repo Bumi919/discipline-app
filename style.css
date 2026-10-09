@@ -12,19 +12,48 @@
   --sw-violet: #8b5cf6;
 }
 
-:root[data-accent="indigo"]  { --accent: var(--sw-indigo); }
-:root[data-accent="sky"]     { --accent: var(--sw-sky); }
-:root[data-accent="emerald"] { --accent: var(--sw-emerald); }
-:root[data-accent="amber"]   { --accent: var(--sw-amber); }
-:root[data-accent="rose"]    { --accent: var(--sw-rose); }
-:root[data-accent="violet"]  { --accent: var(--sw-violet); }
+:root[data-accent="indigo"] {
+  --accent: #6366f1; --accent-hover: #5457e6; --accent-soft: rgba(99, 102, 241, 0.15);
+}
+:root[data-accent="sky"] {
+  --accent: #0ea5e9; --accent-hover: #0c95d6; --accent-soft: rgba(14, 165, 233, 0.15);
+}
+:root[data-accent="emerald"] {
+  --accent: #10b981; --accent-hover: #0ea273; --accent-soft: rgba(16, 185, 129, 0.15);
+}
+:root[data-accent="amber"] {
+  --accent: #f59e0b; --accent-hover: #d98a09; --accent-soft: rgba(245, 158, 11, 0.18);
+}
+:root[data-accent="rose"] {
+  --accent: #f43f5e; --accent-hover: #dc3855; --accent-soft: rgba(244, 63, 94, 0.15);
+}
+:root[data-accent="violet"] {
+  --accent: #8b5cf6; --accent-hover: #7d4fe3; --accent-soft: rgba(139, 92, 246, 0.15);
+}
 
-/* ===== Warna latar (dipakai tema apapun) ===== */
-:root[data-bg="graphite"] { --bg: #0a0c12; --bg-light: #f4f5f7; }
-:root[data-bg="navy"]     { --bg: #0a0f1e; --bg-light: #edf2fb; }
-:root[data-bg="forest"]   { --bg: #0a1210; --bg-light: #eaf4ef; }
-:root[data-bg="plum"]     { --bg: #130a17; --bg-light: #f6eef8; }
-:root[data-bg="sand"]     { --bg: #14100a; --bg-light: #f7f3ea; }
+/* ===== Warna latar (dipakai tema apapun) =====
+   Nilai turunan (card/head per nuansa) dihitung statis — tanpa color-mix —
+   agar kompatibel dengan iOS Safari & WebView Android lama. */
+:root[data-bg="graphite"] {
+  --bg: #0a0c12; --bg-light: #f4f5f7;
+  --card-d: #11161f; --head-d: #1c212c; --head-l: #fafbfd;
+}
+:root[data-bg="navy"] {
+  --bg: #0a0f1e; --bg-light: #edf2fb;
+  --card-d: #111726; --head-d: #1c2232; --head-l: #f8fafd;
+}
+:root[data-bg="forest"] {
+  --bg: #0a1210; --bg-light: #eaf4ef;
+  --card-d: #11191e; --head-d: #1c242b; --head-l: #f6faf8;
+}
+:root[data-bg="plum"] {
+  --bg: #130a17; --bg-light: #f6eef8;
+  --card-d: #161422; --head-d: #20202f; --head-l: #faf8fc;
+}
+:root[data-bg="sand"] {
+  --bg: #14100a; --bg-light: #f7f3ea;
+  --card-d: #17181b; --head-d: #202324; --head-l: #faf9f5;
+}
 
 /* ===== Tema ===== */
 :root,
@@ -32,7 +61,7 @@
   color-scheme: light;
   --bg: var(--bg-light, #f4f5f7);
   --card: #ffffff;
-  --head: color-mix(in srgb, var(--bg) 40%, #ffffff);
+  --head: var(--head-l, #f8f9fb);
   --line: #e4e7ec;
   --line-soft: #eef0f4;
   --zebra: #fcfcfd;
@@ -46,18 +75,17 @@
   --lvl-3: #6ee7b7;
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
   --shadow-pop: 0 14px 34px rgba(16, 24, 40, 0.14);
-  --accent-hover: color-mix(in srgb, var(--accent) 85%, #000);
-  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
   --radius: 16px;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  /* --bg disediakan rule [data-bg]; card & head diturunkan dari --bg agar ikut nuansa latar */
-  --card: color-mix(in srgb, var(--bg) 55%, #1a2130);
+  /* --bg dari rule [data-bg]; card & head statis per nuansa latar (tanpa color-mix,
+     kompatibel iOS Safari / WebView Android lama) */
+  --card: var(--card-d, #10141c);
   --line: rgba(255, 255, 255, 0.09);
   --line-soft: rgba(255, 255, 255, 0.055);
-  --head: color-mix(in srgb, var(--bg) 45%, #2a3242);
+  --head: var(--head-d, #161b26);
   --zebra: rgba(255, 255, 255, 0.018);
   --text: #e6e9f0;
   --muted: #8b93a7;
@@ -69,8 +97,6 @@
   --lvl-3: rgba(110, 231, 183, 0.75);
   --shadow: none;
   --shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.5);
-  --accent-hover: color-mix(in srgb, var(--accent) 82%, #fff);
-  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 html {
@@ -448,7 +474,7 @@ body {
 
 .row-del:hover {
   color: var(--weekend);
-  background: color-mix(in srgb, var(--weekend) 12%, transparent);
+  background: rgba(244, 63, 94, 0.13);
   opacity: 1;
 }
 
@@ -586,7 +612,8 @@ body {
   background: var(--zebra);
 }
 
-.matrix tbody tr:nth-child(even) td.mcell:has(.cell:disabled) {
+/* Kolom tanggal mendatang — class statis dari JS (tanpa :has(), kompatibel mobile) */
+.matrix tbody tr td.mcell.future {
   background: var(--disabled);
 }
 
@@ -864,14 +891,14 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 7px;
 }
 
-/* Rel tipis di tengah kolom — jelas beda dari batang & tidak menempel label */
+/* Rel tipis di tengah kolom — jelas beda dari batang & tidak menempel label.
+   Jarak pakai margin (bukan flex gap) agar aman di browser HP lama. */
 .daybar-track {
   flex: 1;
   width: 64%;
-  margin: 0 auto;
+  margin: 0 auto 9px;
   display: flex;
   align-items: flex-end;
   background: var(--line-soft);
@@ -896,9 +923,12 @@ body {
   box-shadow: inset 0 0 0 1.5px var(--accent);
 }
 
+/* Area label tingginya tetap — batang tidak akan pernah menyentuh angka */
 .daybar-num {
+  flex: none;
+  height: 11px;
   font-size: 0.58rem;
-  line-height: 1;
+  line-height: 11px;
   color: var(--muted);
   text-align: center;
 }
