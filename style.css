@@ -18,10 +18,28 @@
   --radius: 14px;
 }
 
+html {
+  -webkit-text-size-adjust: 100%; /* iOS: cegah pembesaran teks otomatis */
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Elemen interaktif: responsif sentuh (hilangkan delay tap & highlight biru) */
+.icon-btn,
+.text-btn,
+.month-trigger,
+.mp-cell,
+.mp-ybtn,
+.row-del,
+.primary-mini,
+.cell,
+.name-input {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -49,13 +67,6 @@ body {
   font-weight: 800;
   letter-spacing: -0.02em;
   text-align: center;
-}
-
-.brand p {
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-align: center;
-  margin-top: 3px;
 }
 
 /* ===== Dashboard: full ke samping ===== */
@@ -695,6 +706,7 @@ body {
   list-style: none;
   flex: 1;
   min-width: 170px;
+  max-width: 420px; /* jaga agar legenda tidak melebar berlebih di layar lebar */
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -788,28 +800,137 @@ body {
 }
 
 /* ===== Responsive ===== */
+
+/* Tablet kecil & HP: dashboard menumpuk; input nama 16px (anti-zoom iOS/Android) */
 @media (max-width: 1040px) {
   .dashboard {
     grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .name-input {
+    font-size: 16px;
   }
 }
 
+/* Tablet / layar sedang: ring + 3 kartu statistik sebaris penuh */
+@media (min-width: 561px) and (max-width: 1040px) {
+  .stat-hero {
+    display: grid;
+    grid-template-columns: auto repeat(3, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .cards {
+    display: contents;
+  }
+
+  .stat-hero .summary-card:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+}
+
+/* HP (Android / iPhone) */
 @media (max-width: 560px) {
   body {
     padding: 12px 8px;
     font-size: 14px;
   }
 
+  .app-header {
+    margin-bottom: 10px;
+  }
+
+  .brand h1 {
+    font-size: 1.2rem;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  /* Toolbar bulan: selebar panel, panah di ujung — target sentuh besar */
+  .panel-head .toolbar.mini {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+  }
+
+  .month-trigger {
+    padding: 10px 12px;
+    min-height: 42px;
+  }
+
+  .mp-cell {
+    padding: 11px 0;
+  }
+
+  .mp-ybtn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .text-btn {
+    padding: 11px 16px;
+  }
+
+  /* Sel centang & kolom nama menyesuaikan layar kecil */
+  .matrix th.day,
+  .matrix td.mcell {
+    width: 30px;
+    min-width: 30px;
+  }
+
+  .cell {
+    height: 34px;
+    font-size: 0.85rem;
+  }
+
+  .matrix .kname {
+    min-width: 0;
+  }
+
+  .name-input {
+    width: 84px;
+    max-width: 84px;
+  }
+
+  .kacts .row-del {
+    font-size: 0.8rem;
+    padding: 4px 7px;
+  }
+
+  .primary-mini {
+    width: 34px;
+    height: 30px;
+  }
+
+  /* Statistik menumpuk rapi */
   .stat-hero {
     justify-content: center;
+    gap: 12px;
   }
 
   .cards {
     min-width: 100%;
   }
 
-  .name-input {
-    width: 84px;
-    max-width: 84px;
+  /* Batang harian: label tanggal ganjil saja supaya tidak tabrakan */
+  .daybars {
+    height: 92px;
+    gap: 2px;
+  }
+
+  .daybar-wrap:nth-child(even) .daybar-num {
+    display: none;
+  }
+
+  .app-footer {
+    gap: 8px;
   }
 }

@@ -33,8 +33,10 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 
 Buka `index.html` di browser (double-click). Tidak perlu build/server.
 
-> Layout otomatis: di layar ≥1040px tampil berdampingan (checklist kiri, statistik kanan);
-> di layar sempit menumpuk.
+> Layout otomatis & responsif: desktop ≥1040px tampil berdampingan (checklist kiri,
+> statistik kanan); tablet (≤1040px) menumpuk dengan ring + 3 kartu sebaris;
+> HP (≤560px) menyesuaikan — toolbar sentuh besar, kolom nama merapat,
+> sel centang 30px, input 16px anti-zoom iOS, label tanggal ganjil saja di batang harian.
 
 ## 🗂 Struktur
 
