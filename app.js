@@ -57,9 +57,11 @@ const LS = {
   v1: "discipline-log-v1",
   theme: "disc-v2-theme",
   accent: "disc-v2-accent",
+  bg: "disc-v2-bg",
 };
 
 const ACCENTS = ["indigo", "sky", "emerald", "amber", "rose", "violet"];
+const BGS = ["graphite", "navy", "forest", "plum", "sand"];
 
 // ===== State =====
 let activities = loadJSON(LS.act) || clone(DEFAULT_ACTIVITIES);
@@ -553,16 +555,32 @@ const themeMeta = document.querySelector('meta[name="theme-color"]');
 function applyTheme(theme, persist) {
   document.documentElement.dataset.theme = theme;
   themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
-  themeMeta.content = theme === "dark" ? "#0a0c12" : "#f4f5f7";
+  syncThemeColor();
   if (persist) localStorage.setItem(LS.theme, theme);
 }
 
 function applyAccent(accent, persist) {
   document.documentElement.dataset.accent = accent;
-  document.querySelectorAll(".swatch").forEach((s) =>
+  document.querySelectorAll(".swatch[data-accent]").forEach((s) =>
     s.classList.toggle("sel", s.dataset.accent === accent)
   );
   if (persist) localStorage.setItem(LS.accent, accent);
+}
+
+function applyBg(bg, persist) {
+  document.documentElement.dataset.bg = bg;
+  document.querySelectorAll(".swatch[data-bg]").forEach((s) =>
+    s.classList.toggle("sel", s.dataset.bg === bg)
+  );
+  syncThemeColor();
+  if (persist) localStorage.setItem(LS.bg, bg);
+}
+
+// theme-color meta mengikuti warna latar aktif
+function syncThemeColor() {
+  themeMeta.content =
+    getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() ||
+    (document.documentElement.dataset.theme === "dark" ? "#0a0c12" : "#f4f5f7");
 }
 
 themeToggle.addEventListener("click", () => {
@@ -571,8 +589,12 @@ themeToggle.addEventListener("click", () => {
   applyTheme(next, true);
 });
 
-document.querySelectorAll(".swatch").forEach((s) =>
+document.querySelectorAll(".swatch[data-accent]").forEach((s) =>
   s.addEventListener("click", () => applyAccent(s.dataset.accent, true))
+);
+
+document.querySelectorAll(".swatch[data-bg]").forEach((s) =>
+  s.addEventListener("click", () => applyBg(s.dataset.bg, true))
 );
 
 // ============================================================
@@ -583,6 +605,12 @@ applyAccent(
   ACCENTS.includes(localStorage.getItem(LS.accent))
     ? localStorage.getItem(LS.accent)
     : "indigo",
+  false
+);
+applyBg(
+  BGS.includes(localStorage.getItem(LS.bg))
+    ? localStorage.getItem(LS.bg)
+    : "graphite",
   false
 );
 renderAll();

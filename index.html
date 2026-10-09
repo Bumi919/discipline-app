@@ -9,7 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
   <link rel="stylesheet" href="style.css">
   <script>
-    // Terapkan tema & aksen sebelum render untuk menghindari FOUC
+    // Terapkan tema, aksen & latar sebelum render untuk menghindari FOUC
     (function () {
       var d = document.documentElement;
       var savedTheme = localStorage.getItem("disc-v2-theme");
@@ -17,6 +17,8 @@
         (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
       var acc = localStorage.getItem("disc-v2-accent");
       d.dataset.accent = ["indigo", "sky", "emerald", "amber", "rose", "violet"].includes(acc) ? acc : "indigo";
+      var bg = localStorage.getItem("disc-v2-bg");
+      d.dataset.bg = ["graphite", "navy", "forest", "plum", "sand"].includes(bg) ? bg : "graphite";
     })();
   </script>
 </head>
@@ -34,6 +36,13 @@
           <button class="swatch" data-accent="amber"   aria-label="Aksen amber"   title="Amber"></button>
           <button class="swatch" data-accent="rose"    aria-label="Aksen rose"    title="Rose"></button>
           <button class="swatch" data-accent="violet"  aria-label="Aksen violet"  title="Violet"></button>
+        </div>
+        <div class="swatches" role="group" aria-label="Pilih warna latar">
+          <button class="swatch bg-swatch" data-bg="graphite" aria-label="Latar graphite" title="Graphite"></button>
+          <button class="swatch bg-swatch" data-bg="navy"     aria-label="Latar navy"     title="Navy"></button>
+          <button class="swatch bg-swatch" data-bg="forest"   aria-label="Latar hijau hutan" title="Hijau hutan"></button>
+          <button class="swatch bg-swatch" data-bg="plum"     aria-label="Latar plum"     title="Plum"></button>
+          <button class="swatch bg-swatch" data-bg="sand"     aria-label="Latar hangat"   title="Hangat"></button>
         </div>
         <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Ganti tema terang/gelap" title="Ganti tema"></button>
       </div>
