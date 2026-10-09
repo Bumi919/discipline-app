@@ -3,15 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f3f4f6">
+  <meta name="description" content="Daily Discipline — checklist & statistik harian untuk melacak disiplin: grid kegiatan, ring progres, donut, dan diagram batang.">
+  <meta name="theme-color" content="#0a0c12">
   <title>Daily Discipline — Checklist &amp; Statistik Harian</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Terapkan tema & aksen sebelum render untuk menghindari FOUC
+    (function () {
+      var d = document.documentElement;
+      var savedTheme = localStorage.getItem("disc-v2-theme");
+      d.dataset.theme = savedTheme ||
+        (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      var acc = localStorage.getItem("disc-v2-accent");
+      d.dataset.accent = ["indigo", "sky", "emerald", "amber", "rose", "violet"].includes(acc) ? acc : "indigo";
+    })();
+  </script>
 </head>
 <body>
   <div class="app">
     <header class="app-header">
       <div class="brand">
         <h1>Daily Discipline</h1>
+      </div>
+      <div class="header-controls">
+        <div class="swatches" role="group" aria-label="Pilih warna aksen">
+          <button class="swatch" data-accent="indigo"  aria-label="Aksen indigo"  title="Indigo"></button>
+          <button class="swatch" data-accent="sky"     aria-label="Aksen biru"    title="Biru langit"></button>
+          <button class="swatch" data-accent="emerald" aria-label="Aksen hijau"   title="Hijau emerald"></button>
+          <button class="swatch" data-accent="amber"   aria-label="Aksen amber"   title="Amber"></button>
+          <button class="swatch" data-accent="rose"    aria-label="Aksen rose"    title="Rose"></button>
+          <button class="swatch" data-accent="violet"  aria-label="Aksen violet"  title="Violet"></button>
+        </div>
+        <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Ganti tema terang/gelap" title="Ganti tema"></button>
       </div>
     </header>
 
@@ -21,16 +45,16 @@
         <div class="panel-head">
           <h2>Daily Activities</h2>
           <div class="toolbar mini">
-            <button id="prev-month2" class="icon-btn" title="Bulan sebelumnya">‹</button>
-            <button id="picker-trigger" class="month-trigger" title="Pilih bulan & tahun">
-              <span id="month-label2" class="month-label">—</span><i class="chev">▾</i>
+            <button id="prev-month2" class="icon-btn" title="Bulan sebelumnya" aria-label="Bulan sebelumnya">‹</button>
+            <button id="picker-trigger" class="month-trigger" title="Pilih bulan & tahun" aria-haspopup="dialog">
+              <span id="month-label2" class="month-label">—</span><i class="chev" aria-hidden="true">▾</i>
             </button>
-            <button id="next-month2" class="icon-btn" title="Bulan berikutnya">›</button>
+            <button id="next-month2" class="icon-btn" title="Bulan berikutnya" aria-label="Bulan berikutnya">›</button>
             <div class="month-picker" id="month-picker">
               <div class="mp-head">
-                <button class="mp-ybtn" id="mp-prev-year" title="Tahun sebelumnya">‹</button>
+                <button class="mp-ybtn" id="mp-prev-year" title="Tahun sebelumnya" aria-label="Tahun sebelumnya">‹</button>
                 <b id="mp-year">—</b>
-                <button class="mp-ybtn" id="mp-next-year" title="Tahun berikutnya">›</button>
+                <button class="mp-ybtn" id="mp-next-year" title="Tahun berikutnya" aria-label="Tahun berikutnya">›</button>
               </div>
               <div class="mp-grid" id="mp-grid"></div>
             </div>
@@ -70,7 +94,7 @@
         </div>
 
         <div class="card-inner">
-          <h3>Discipline Level</h3>
+          <h3>Ritme Harian</h3>
           <div class="daybars" id="daybars"></div>
         </div>
 

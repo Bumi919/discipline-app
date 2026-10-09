@@ -17,6 +17,9 @@ Tanpa framework, tanpa server — buka file langsung jalan.
 - **Pemilih bulan & tahun modern** — klik label bulan untuk membuka dropdown
   (grid 12 bulan + stepper tahun, bulan ini & bulan berjalan tersorot),
   tutup dengan klik luar atau Esc; panah ‹ › tetap untuk langkah cepat.
+- **Tema dark & light + warna aksen pilihan** — toggle 🌗 di header, 6 swatch aksen
+  (indigo, biru, hijau, amber, rose, violet); default mengikuti preferensi sistem,
+  pilihan tersimpan di `localStorage` tanpa flash saat reload.
 - **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
@@ -45,7 +48,7 @@ Buka `index.html` di browser (double-click). Tidak perlu build/server.
 ```
 discipline-app/
 ├── index.html   # struktur 1 halaman (2 panel dashboard)
-├── style.css    # tema minimalis terang, grid dashboard, ring & donut
+├── style.css    # tema dark/light + aksen, grid dashboard, ring & donut
 ├── app.js       # logika checklist, statistik, kelola kegiatan, ekspor/impor
 └── README.md
 ```

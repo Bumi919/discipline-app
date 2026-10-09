@@ -55,7 +55,11 @@ const LS = {
   log: "disc-v2-log",
   sched: "disc-v2-schedule",
   v1: "discipline-log-v1",
+  theme: "disc-v2-theme",
+  accent: "disc-v2-accent",
 };
+
+const ACCENTS = ["indigo", "sky", "emerald", "amber", "rose", "violet"];
 
 // ===== State =====
 let activities = loadJSON(LS.act) || clone(DEFAULT_ACTIVITIES);
@@ -344,7 +348,7 @@ function renderStats() {
   // Ring progres bulanan
   $("ring-pct").textContent = progressPct + "%";
   $("ring-progres").style.background =
-    `conic-gradient(var(--accent) ${progressPct}%, #e8eaee ${progressPct}%)`;
+    `conic-gradient(var(--accent) ${progressPct}%, var(--track) ${progressPct}%)`;
 
   // Streak: hari berturut >= 50% (berbasis menit)
   let streak = 0;
@@ -395,9 +399,9 @@ function renderStats() {
       `<span class="nm">${escapeHtml(a.name)}</span>` +
       `<span class="hh">${pct}%</span></li>`);
   }
-  if (stops.length && filledDeg < 360) stops.push(`#e8eaee ${filledDeg}deg 360deg`);
+  if (stops.length && filledDeg < 360) stops.push(`var(--track) ${filledDeg}deg 360deg`);
   $("donut-dist").style.background =
-    stops.length ? `conic-gradient(${stops.join(", ")})` : "#e8eaee";
+    stops.length ? `conic-gradient(${stops.join(", ")})` : "var(--track)";
   $("donut-total").textContent = progressPct + "%";
   $("donut-legend").innerHTML = legendItems.length
     ? legendItems.join("")
@@ -541,6 +545,44 @@ $("import-file").addEventListener("change", (e) => {
 });
 
 // ============================================================
+//  Tema & warna aksen
+// ============================================================
+const themeToggle = $("theme-toggle");
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+function applyTheme(theme, persist) {
+  document.documentElement.dataset.theme = theme;
+  themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
+  themeMeta.content = theme === "dark" ? "#0a0c12" : "#f4f5f7";
+  if (persist) localStorage.setItem(LS.theme, theme);
+}
+
+function applyAccent(accent, persist) {
+  document.documentElement.dataset.accent = accent;
+  document.querySelectorAll(".swatch").forEach((s) =>
+    s.classList.toggle("sel", s.dataset.accent === accent)
+  );
+  if (persist) localStorage.setItem(LS.accent, accent);
+}
+
+themeToggle.addEventListener("click", () => {
+  const next =
+    document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  applyTheme(next, true);
+});
+
+document.querySelectorAll(".swatch").forEach((s) =>
+  s.addEventListener("click", () => applyAccent(s.dataset.accent, true))
+);
+
+// ============================================================
 //  Init
 // ============================================================
+applyTheme(document.documentElement.dataset.theme || "dark", false);
+applyAccent(
+  ACCENTS.includes(localStorage.getItem(LS.accent))
+    ? localStorage.getItem(LS.accent)
+    : "indigo",
+  false
+);
 renderAll();

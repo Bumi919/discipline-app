@@ -1,21 +1,69 @@
 /* ============================================================
-   Disiplin Harian — 1 halaman full ke samping, modern minimalis
+   Daily Discipline — minimalis, tema dark/light + aksen pilihan
    ============================================================ */
+
+/* ===== Warna aksen (dipakai tema apapun) ===== */
 :root {
-  --bg: #f3f4f6;
+  --sw-indigo: #6366f1;
+  --sw-sky: #0ea5e9;
+  --sw-emerald: #10b981;
+  --sw-amber: #f59e0b;
+  --sw-rose: #f43f5e;
+  --sw-violet: #8b5cf6;
+}
+
+:root[data-accent="indigo"]  { --accent: var(--sw-indigo); }
+:root[data-accent="sky"]     { --accent: var(--sw-sky); }
+:root[data-accent="emerald"] { --accent: var(--sw-emerald); }
+:root[data-accent="amber"]   { --accent: var(--sw-amber); }
+:root[data-accent="rose"]    { --accent: var(--sw-rose); }
+:root[data-accent="violet"]  { --accent: var(--sw-violet); }
+
+/* ===== Tema ===== */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5f7;
   --card: #ffffff;
-  --line: #e5e7eb;
-  --line-soft: #eef0f3;
-  --head: #f9fafb;
+  --line: #e4e7ec;
+  --line-soft: #eef0f4;
+  --head: #f8f9fb;
   --zebra: #fcfcfd;
   --text: #111827;
-  --muted: #6b7280;
-  --accent: #4f46e5;
-  --accent-dark: #4338ca;
-  --accent-soft: #eef2ff;
-  --green: #10b981;
-  --red: #ef4444;
-  --radius: 14px;
+  --muted: #667085;
+  --track: #e8eaee;
+  --weekend: #e11d48;
+  --disabled: #f2f4f7;
+  --lvl-1: #fca5a5;
+  --lvl-2: #fcd34d;
+  --lvl-3: #6ee7b7;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-pop: 0 14px 34px rgba(16, 24, 40, 0.14);
+  --accent-hover: color-mix(in srgb, var(--accent) 85%, #000);
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --radius: 16px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0c12;
+  --card: #10141c;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-soft: rgba(255, 255, 255, 0.055);
+  --head: #161b26;
+  --zebra: rgba(255, 255, 255, 0.018);
+  --text: #e6e9f0;
+  --muted: #8b93a7;
+  --track: rgba(255, 255, 255, 0.1);
+  --weekend: #fb7185;
+  --disabled: rgba(255, 255, 255, 0.035);
+  --lvl-1: rgba(251, 113, 133, 0.75);
+  --lvl-2: rgba(252, 211, 77, 0.75);
+  --lvl-3: rgba(110, 231, 183, 0.75);
+  --shadow: none;
+  --shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --accent-hover: color-mix(in srgb, var(--accent) 82%, #fff);
+  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 html {
@@ -37,9 +85,16 @@ html {
 .row-del,
 .primary-mini,
 .cell,
+.swatch,
 .name-input {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 body {
@@ -49,6 +104,7 @@ body {
   min-height: 100vh;
   padding: 18px;
   font-size: 15px;
+  transition: background 0.25s, color 0.25s;
 }
 
 .app {
@@ -59,14 +115,58 @@ body {
 
 /* ===== Header ===== */
 .app-header {
-  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 .brand h1 {
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  text-align: center;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swatches {
+  display: flex;
+  gap: 6px;
+  padding: 5px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+}
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.swatch[data-accent="indigo"]  { background: var(--sw-indigo); }
+.swatch[data-accent="sky"]     { background: var(--sw-sky); }
+.swatch[data-accent="emerald"] { background: var(--sw-emerald); }
+.swatch[data-accent="amber"]   { background: var(--sw-amber); }
+.swatch[data-accent="rose"]    { background: var(--sw-rose); }
+.swatch[data-accent="violet"]  { background: var(--sw-violet); }
+
+.swatch:hover {
+  transform: scale(1.18);
+}
+
+.swatch.sel {
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--text);
+  transform: scale(1.05);
 }
 
 /* ===== Dashboard: full ke samping ===== */
@@ -82,8 +182,9 @@ body {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 16px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  box-shadow: var(--shadow);
   min-width: 0; /* jaga agar lebar minimum tabel tidak mendorong panel keluar viewport */
+  transition: background 0.25s, border-color 0.25s;
 }
 
 .panel-head {
@@ -104,10 +205,6 @@ body {
 .muted {
   color: var(--muted);
   font-size: 0.8rem;
-}
-
-.center {
-  text-align: center;
 }
 
 /* ===== Toolbar ===== */
@@ -212,7 +309,7 @@ body {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 14px;
-  box-shadow: 0 14px 34px rgba(16, 24, 40, 0.16);
+  box-shadow: var(--shadow-pop);
   padding: 12px;
   z-index: 60;
   opacity: 0;
@@ -320,17 +417,19 @@ body {
 .row-del {
   border: none;
   background: transparent;
-  color: #c3c8d0;
+  color: var(--muted);
   font-size: 0.95rem;
   cursor: pointer;
   padding: 2px 6px;
   border-radius: 6px;
+  opacity: 0.55;
   transition: all 0.15s;
 }
 
 .row-del:hover {
-  color: var(--red);
-  background: #fef2f2;
+  color: var(--weekend);
+  background: color-mix(in srgb, var(--weekend) 12%, transparent);
+  opacity: 1;
 }
 
 /* ===== Grid daily activities ===== */
@@ -397,7 +496,7 @@ body {
 }
 
 .matrix th.day.weekend {
-  color: #e11d48;
+  color: var(--weekend);
 }
 
 .matrix th.day.tcol {
@@ -429,7 +528,7 @@ body {
 }
 
 .cell:disabled {
-  background: #f6f7f9;
+  background: var(--disabled);
   cursor: default;
 }
 
@@ -440,7 +539,7 @@ body {
 }
 
 .matrix td.mcell.tcol {
-  background: #f4f4fe;
+  background: var(--accent-soft);
 }
 
 .matrix th.sum,
@@ -467,12 +566,8 @@ body {
   background: var(--zebra);
 }
 
-.matrix tbody tr:nth-child(even) td.mcell.tcol {
-  background: #f6f6fd;
-}
-
 .matrix tbody tr:nth-child(even) td.mcell:has(.cell:disabled) {
-  background: #f6f7f9;
+  background: var(--disabled);
 }
 
 /* ===== Kolom Kegiatan — input inline ===== */
@@ -509,7 +604,7 @@ body {
 .name-input:focus {
   outline: none;
   border-color: var(--accent);
-  background: #fff;
+  background: var(--card);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
@@ -532,10 +627,7 @@ body {
 
 .matrix tr.addrow .name-input {
   border-color: var(--line);
-  background: #fff;
-}
-
-.matrix tr.addrow .name-input {
+  background: var(--card);
   color: var(--muted);
 }
 
@@ -560,7 +652,7 @@ body {
 }
 
 .primary-mini:hover {
-  background: var(--accent-dark);
+  background: var(--accent-hover);
 }
 
 /* ===== Statistik hero: ring + cards ===== */
@@ -576,7 +668,7 @@ body {
   width: 116px;
   height: 116px;
   border-radius: 50%;
-  background: conic-gradient(var(--accent) 0%, #e8eaee 0%);
+  background: conic-gradient(var(--accent) 0%, var(--track) 0%);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -675,7 +767,7 @@ body {
   width: 122px;
   height: 122px;
   border-radius: 50%;
-  background: #e8eaee;
+  background: var(--track);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -739,7 +831,7 @@ body {
   white-space: nowrap;
 }
 
-/* ===== Discipline Level — batang harian ===== */
+/* ===== Ritme harian — batang ===== */
 .daybars {
   display: flex;
   align-items: flex-end;
@@ -765,9 +857,9 @@ body {
   transition: height 0.4s;
 }
 
-.daybar.lvl-1 { background: #fca5a5; }
-.daybar.lvl-2 { background: #fcd34d; }
-.daybar.lvl-3 { background: #6ee7b7; }
+.daybar.lvl-1 { background: var(--lvl-1); }
+.daybar.lvl-2 { background: var(--lvl-2); }
+.daybar.lvl-3 { background: var(--lvl-3); }
 .daybar.lvl-4 { background: var(--accent); }
 
 .daybar-num {
@@ -788,7 +880,7 @@ body {
 }
 
 #save-status {
-  color: var(--green);
+  color: var(--sw-emerald);
   font-size: 0.8rem;
   font-weight: 600;
   opacity: 0;
@@ -843,6 +935,11 @@ body {
 
   .brand h1 {
     font-size: 1.2rem;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .panel {
@@ -932,5 +1029,16 @@ body {
 
   .app-footer {
     gap: 8px;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
