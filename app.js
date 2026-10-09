@@ -377,23 +377,22 @@ function renderStats() {
       <div class="sub">${loggedDays}/${dim} hari tercatat</div>
     </div>`;
 
-  // ===== Discipline Level (donut) — segmen seimbang per kegiatan =====
-  // Tiap kegiatan wajib mendapat busur sama besar (360/n); tiap segmen
-  // terisi sesuai progres kegiatan itu sendiri, sisa segmen abu-abu —
-  // jadi ukuran busur seimbang dan persen legenda = isi busurnya.
+  // ===== Discipline Level (donut) — porsi setara, busur menyatu =====
+  // Tiap kegiatan wajib mendapat porsi busur sama besar (360/n) tanpa
+  // pemisah; tiap porsi terisi sesuai progres kegiatan itu sendiri,
+  // sisa abu-abu — persen legenda = isi porsi busurnya.
   const stops = [];
   const legendItems = [];
   if (req.length) {
     const seg = 360 / req.length;
-    const gap = req.length > 1 ? Math.min(6, seg * 0.12) : 0;
     for (let i = 0; i < req.length; i++) {
       const a = req[i];
-      const start = i * seg + gap / 2;
-      const end = (i + 1) * seg - gap / 2;
+      const start = i * seg;
+      const end = (i + 1) * seg;
       const mins = actMin[a.id] || 0;
       const targetBulan = a.targetMin * elapsed;
       const pct = targetBulan > 0 ? Math.min(100, Math.round((mins / targetBulan) * 100)) : 0;
-      const fillEnd = start + ((end - start) * pct) / 100;
+      const fillEnd = start + seg * (pct / 100);
       stops.push(`${a.color} ${start}deg ${fillEnd}deg`);
       if (fillEnd < end) stops.push(`var(--track) ${fillEnd}deg ${end}deg`);
       legendItems.push(
