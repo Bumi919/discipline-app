@@ -438,6 +438,58 @@ function changeMonth(n) {
 $("prev-month2").addEventListener("click", () => changeMonth(-1));
 $("next-month2").addEventListener("click", () => changeMonth(1));
 
+// ===== Pemilih bulan & tahun (dropdown modern) =====
+const MP_SHORT = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+  "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+const pickerEl = $("month-picker");
+const triggerEl = $("picker-trigger");
+let pickYear = curMonth.getFullYear();
+
+function renderPicker() {
+  $("mp-year").textContent = pickYear;
+  const grid = $("mp-grid");
+  grid.innerHTML = "";
+  const now = new Date();
+  for (let i = 0; i < 12; i++) {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className =
+      "mp-cell" +
+      (i === curMonth.getMonth() && pickYear === curMonth.getFullYear() ? " sel" : "") +
+      (i === now.getMonth() && pickYear === now.getFullYear() ? " now" : "");
+    cell.textContent = MP_SHORT[i];
+    cell.addEventListener("click", () => {
+      curMonth.setFullYear(pickYear, i, 1);
+      renderAll();
+      closePicker();
+    });
+    grid.appendChild(cell);
+  }
+}
+
+function openPicker() {
+  pickYear = curMonth.getFullYear();
+  renderPicker();
+  pickerEl.classList.add("open");
+  triggerEl.classList.add("active");
+}
+
+function closePicker() {
+  pickerEl.classList.remove("open");
+  triggerEl.classList.remove("active");
+}
+
+triggerEl.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if (pickerEl.classList.contains("open")) closePicker();
+  else openPicker();
+});
+pickerEl.addEventListener("click", (e) => e.stopPropagation());
+$("mp-prev-year").addEventListener("click", () => { pickYear--; renderPicker(); });
+$("mp-next-year").addEventListener("click", () => { pickYear++; renderPicker(); });
+document.addEventListener("click", () => closePicker());
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePicker(); });
+
 // ============================================================
 //  Render semua
 // ============================================================

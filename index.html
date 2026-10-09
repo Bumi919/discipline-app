@@ -21,8 +21,18 @@
           <h2>Daily Activities</h2>
           <div class="toolbar mini">
             <button id="prev-month2" class="icon-btn" title="Bulan sebelumnya">‹</button>
-            <span id="month-label2" class="month-label">—</span>
+            <button id="picker-trigger" class="month-trigger" title="Pilih bulan & tahun">
+              <span id="month-label2" class="month-label">—</span><i class="chev">▾</i>
+            </button>
             <button id="next-month2" class="icon-btn" title="Bulan berikutnya">›</button>
+            <div class="month-picker" id="month-picker">
+              <div class="mp-head">
+                <button class="mp-ybtn" id="mp-prev-year" title="Tahun sebelumnya">‹</button>
+                <b id="mp-year">—</b>
+                <button class="mp-ybtn" id="mp-next-year" title="Tahun berikutnya">›</button>
+              </div>
+              <div class="mp-grid" id="mp-grid"></div>
+            </div>
           </div>
         </div>
 

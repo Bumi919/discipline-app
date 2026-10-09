@@ -14,6 +14,9 @@ Tanpa framework, tanpa server — buka file langsung jalan.
     tombol 🗑 untuk menghapus (termasuk centangannya).
   - **Baris input di ujung tabel** — ketik nama, tekan **Enter** atau **+**
     untuk menambah kegiatan baru. Nama kegiatan tampil polos tanpa emoji.
+- **Pemilih bulan & tahun modern** — klik label bulan untuk membuka dropdown
+  (grid 12 bulan + stepper tahun, bulan ini & bulan berjalan tersorot),
+  tutup dengan klik luar atau Esc; panah ‹ › tetap untuk langkah cepat.
 - **Statistik** (mengikuti bulan yang dipilih):
   - **Ring progres** bulanan (akumulasi menit vs target menit × hari berjalan).
   - 3 kartu: skor hari ini, progres bulanan, streak ≥ 50%.
